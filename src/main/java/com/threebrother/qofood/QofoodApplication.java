@@ -13,6 +13,7 @@ public class QofoodApplication extends SpringBootServletInitializer {
         return builder.sources(QofoodApplication.class);
     }
 
+
     public static void main(String[] args) {
         SpringApplication.run(QofoodApplication.class, args);
     }

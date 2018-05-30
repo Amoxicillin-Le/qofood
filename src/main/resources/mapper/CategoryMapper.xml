@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+<mapper namespace="com.threebrother.qofood.dao.CategoryMapper" >
+
+    <resultMap id="BaseResultMap" type="com.threebrother.qofood.entity.Category" >
+        <id column="category_id" property="categoryId" jdbcType="INTEGER" javaType="Integer"/>
+        <result column="category_name" property="categoryName" jdbcType="VARCHAR" javaType="String" />
+        <result column="category_background_url" property="categoryBackgroundUrl" jdbcType="VARCHAR" javaType="String"/>
+        <result column="is_show" property="isShow" jdbcType="TINYINT" javaType="Boolean" />
+        <result column="create_time" property="createTime" jdbcType="TIMESTAMP" javaType="java.sql.Timestamp"  />
+        <result column="update_time" property="updateTime" jdbcType="TIMESTAMP" javaType="java.sql.Timestamp"  />
+    </resultMap>
+
+    <sql id="Base_Column_List">
+      category_id, category_name, category_background_url, is_show, create_time, update_time
+    </sql>
+
+    <!--获取可以显示的种类列表-->
+    <select id="selectListByIsShow" resultMap="BaseResultMap" parameterType="Boolean" >
+        select
+          <include refid="Base_Column_List" />
+        from
+          t_category
+        where
+          is_show = #{isShow}
+    </select>
+
+</mapper>

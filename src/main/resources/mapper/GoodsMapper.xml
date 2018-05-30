@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+<mapper namespace="com.threebrother.qofood.dao.GoodsMapper" >
+
+    <resultMap id="BaseResultMap" type="com.threebrother.qofood.entity.Goods" >
+        <id column="goods_id" property="goodsId" jdbcType="INTEGER" javaType="Integer"/>
+        <result column="goods_name" property="goodsName" jdbcType="VARCHAR" javaType="String" />
+        <result column="goods_desc" property="goodsDesc" jdbcType="VARCHAR" javaType="String"/>
+        <result column="goods_price" property="goodsPrice" jdbcType="DECIMAL" javaType="java.math.BigDecimal" />
+        <result column="goods_small_image_url" property="goodsSmallImageUrl" jdbcType="VARCHAR" javaType="String"  />
+        <result column="goods_big_image1_url" property="goodsBig1ImageUrl" jdbcType="VARCHAR" javaType="String"  />
+        <result column="goods_big_image2_url" property="goodsBig2ImageUrl" jdbcType="VARCHAR" javaType="String"  />
+        <result column="goods_big_image3_url" property="goodsBig3ImageUrl" jdbcType="VARCHAR" javaType="String"  />
+        <result column="goods_sales_volume" property="goodsSalesVolume" jdbcType="INTEGER" javaType="Integer"  />
+        <result column="create_time" property="createTime" jdbcType="TIMESTAMP" javaType="java.sql.Timestamp"  />
+        <result column="update_time" property="updateTime" jdbcType="TIMESTAMP" javaType="java.sql.Timestamp"  />
+    </resultMap>
+
+    <sql id="Base_Column_List">
+      goods_id, goods_name, goods_desc, goods_price, goods_small_image_url,
+      goods_big_image1_url, goods_big_image2_url, goods_big_image3_url,
+      goods_sales_volume, create_time, update_time
+    </sql>
+
+    <sql id="HomePage_Column_List">
+      g.goods_id, g.goods_name, g.goods_desc, g.goods_price, g.goods_small_image_url, g.goods_sales_volume
+    </sql>
+
+    <!--获取可以显示的种类列表-->
+    <select id="selectListByCategoryId" resultMap="BaseResultMap" parameterType="Integer" >
+        select
+          <include refid="HomePage_Column_List" />
+        FROM
+          t_category_goods_rel cgrel
+        LEFT JOIN
+          t_goods g
+        ON
+          cgrel.goods_id = g.goods_id
+        WHERE
+          cgrel.category_id = #{categoryId};
+    </select>
+
+</mapper>

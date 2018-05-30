@@ -6,7 +6,9 @@ import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.boot.web.support.SpringBootServletInitializer;
 
 @SpringBootApplication
-public class QofoodApplication extends SpringBootServletInitializer {
+public class QofoodApplication
+        extends SpringBootServletInitializer
+{
 
     @Override
     protected SpringApplicationBuilder configure(SpringApplicationBuilder builder) {

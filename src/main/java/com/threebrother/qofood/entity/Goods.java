@@ -22,6 +22,8 @@ public class Goods implements Serializable {
 
     private String goodsBig3ImageUrl;
 
+    private Integer goodsCount;
+
     private Integer goodsSalesVolume;
 
     private Timestamp createTime;
@@ -95,6 +97,14 @@ public class Goods implements Serializable {
         this.goodsBig3ImageUrl = goodsBig3ImageUrl;
     }
 
+    public Integer getGoodsCount() {
+        return goodsCount;
+    }
+
+    public void setGoodsCount(Integer goodsCount) {
+        this.goodsCount = goodsCount;
+    }
+
     public Integer getGoodsSalesVolume() {
         return goodsSalesVolume;
     }
@@ -130,6 +140,7 @@ public class Goods implements Serializable {
                 ", goodsBig1ImageUrl='" + goodsBig1ImageUrl + '\'' +
                 ", goodsBig2ImageUrl='" + goodsBig2ImageUrl + '\'' +
                 ", goodsBig3ImageUrl='" + goodsBig3ImageUrl + '\'' +
+                ", goodsCount='" + goodsCount + '\'' +
                 ", goodsSalesVolume='" + goodsSalesVolume + '\'' +
                 ", createTime=" + createTime +
                 ", updateTime=" + updateTime +

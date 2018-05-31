@@ -27,7 +27,7 @@
       g.goods_id, g.goods_name, g.goods_desc, g.goods_price, g.goods_small_image_url, g.goods_sales_volume
     </sql>
 
-    <!--获取可以显示的种类列表-->
+    <!--获取种类下的商品列表-->
     <select id="selectListByCategoryId" resultMap="BaseResultMap" parameterType="Integer" >
         select
           <include refid="HomePage_Column_List" />
@@ -39,6 +39,18 @@
           cgrel.goods_id = g.goods_id
         WHERE
           cgrel.category_id = #{categoryId};
+    </select>
+
+
+    <!--根据id获取商品对象-->
+    <select id="selectByGoodsId" resultMap="BaseResultMap" parameterType="Integer" >
+        select
+          <include refid="Base_Column_List" />
+        FROM
+          t_goods
+        WHERE
+          goods_id = #{goodsId}
+        LIMIT 1
     </select>
 
 </mapper>

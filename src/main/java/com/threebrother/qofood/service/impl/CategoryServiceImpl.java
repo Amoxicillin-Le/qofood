@@ -1,5 +1,6 @@
 package com.threebrother.qofood.service.impl;
 
+import com.threebrother.qofood.common.exception.BusinessException;
 import com.threebrother.qofood.dao.CategoryMapper;
 import com.threebrother.qofood.dao.GoodsMapper;
 import com.threebrother.qofood.entity.Category;
@@ -8,6 +9,7 @@ import com.threebrother.qofood.model.DTO.CategoryDTO;
 import com.threebrother.qofood.service.CategoryService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;

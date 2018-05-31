@@ -4,7 +4,9 @@ import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.alibaba.fastjson.serializer.SerializerFeature;
 import com.threebrother.qofood.model.DTO.CategoryDTO;
+import com.threebrother.qofood.model.Result;
 import com.threebrother.qofood.service.CategoryService;
+import com.threebrother.qofood.util.ResultUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -18,21 +20,15 @@ public class CategoryController {
     @Autowired
     CategoryService categoryService;
 
-    @RequestMapping("categorys")
+    @RequestMapping("/categorys")
     @ResponseBody
-    String getHomePageCategoryList(){
+    Result<CategoryDTO> getHomePageCategoryList(){
 
         JSONObject returnData = new JSONObject();
 
         List<CategoryDTO> categoryDTOS = categoryService.getHomePageCategoryList();
 
-        returnData.put("code","0000");
-        returnData.put("msg","success");
-        returnData.put("data",categoryDTOS);
+        return ResultUtil.success(categoryDTOS);
 
-        return JSON.toJSONString(returnData, SerializerFeature.PrettyFormat,
-                SerializerFeature.WriteMapNullValue, SerializerFeature.WriteNullStringAsEmpty,
-                SerializerFeature.DisableCircularReferenceDetect,
-                SerializerFeature.WriteNullListAsEmpty);
     }
 }

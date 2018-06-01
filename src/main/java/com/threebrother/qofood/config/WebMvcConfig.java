@@ -60,7 +60,7 @@ public class WebMvcConfig extends WebMvcConfigurerAdapter {
                     HandlerMethod handlerMethod = (HandlerMethod) o;
 
                     if (e instanceof BusinessException) {//业务失败的异常
-                        result.setCode(RequestConstant.REQUEST_BUSINESS_EXCEPTION_CODE);
+                        result.setCode(((BusinessException) e).getCode());
                         result.setMsg(e.getMessage());
                     }else{
                         result.setCode(RequestConstant.REQUEST_BUSINESS_EXCEPTION_CODE);

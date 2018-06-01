@@ -36,7 +36,7 @@ public class WXAppletUserInfo {
     private static String requestUrl = "https://api.weixin.qq.com/sns/jscode2session";
 
     // 老王 ovDUr5Htp5A6vBKE0XMp7eE_RExs
-    // 老王 ovDUr5Htp5A6vBKE0XMp7eE_RExs
+    // 赵乐 ovDUr5BsT6uozThzmt3iAnfBLEWg
 
 
     /**

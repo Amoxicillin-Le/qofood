@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+<mapper namespace="com.threebrother.qofood.dao.ReceivreAddressMapper" >
+
+    <resultMap id="BaseResultMap" type="com.threebrother.qofood.entity.ReceiveAddress" >
+        <id column="receive_address_id" property="receiveAddressId" jdbcType="INTEGER" javaType="Integer"/>
+        <result column="receive_address_content" property="receiveAddressContent" jdbcType="VARCHAR" javaType="String" />
+        <result column="receive_address_zip_code" property="receiveAddressZipCode" jdbcType="VARCHAR" javaType="String"  />
+        <result column="receive_address_contact_name" property="receiveAddressContactName" jdbcType="VARCHAR" javaType="String"  />
+        <result column="receive_address_contact_phone" property="receiveAddressContactPhone" jdbcType="VARCHAR" javaType="String"  />
+        <result column="open_id" property="userOpenId" jdbcType="VARCHAR" javaType="String"  />
+        <result column="create_time" property="createTime" jdbcType="TIMESTAMP" javaType="java.sql.Timestamp"  />
+        <result column="update_time" property="createTime" jdbcType="TIMESTAMP" javaType="java.sql.Timestamp"  />
+    </resultMap>
+
+    <sql id="Base_Column_List">
+      receive_address_id, receive_address_content, receive_address_zip_code,
+      receive_address_contact_name,receive_address_contact_phone, open_id,
+      create_time, update_time
+
+    </sql>
+
+    <!--插入-->
+    <insert id="insertReceivreAddress" parameterType="com.threebrother.qofood.entity.ReceiveAddress" >
+      insert into t_receive_address
+        (receive_address_content, receive_address_zip_code,
+        receive_address_contact_name,receive_address_contact_phone, open_id)
+      values
+        (#{receiveAddressContent}, #{receiveAddressZipCode},
+        #{receiveAddressContactName}, #{receiveAddressContactPhone}, #{userOpenId})
+    </insert>
+
+
+    <!--是否存在-->
+    <!--<select id="isExistByOpenId" parameterType="string" resultType="int">-->
+      <!--select-->
+         <!--count(*)-->
+       <!--from-->
+         <!--t_user-->
+       <!--where-->
+        <!--open_id = #{openId}-->
+       <!--LIMIT 1-->
+    <!--</select>-->
+
+</mapper>

@@ -1,8 +1,9 @@
 package com.threebrother.qofood.entity;
 
+import java.io.Serializable;
 import java.sql.Timestamp;
 
-public class User {
+public class User implements Serializable {
 
     private Integer userId;
 

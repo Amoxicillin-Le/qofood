@@ -32,7 +32,7 @@ public class UserServiceImpl implements UserService {
         }catch (Exception e) {
             e.printStackTrace();
             // 请求异常
-            throw new BusinessException(RequestConstant.REQUEST_WX_EXCEPTION_CODE, RequestConstant.REQUEST_WX_EXCEPTION_CODE);
+            throw new BusinessException(RequestConstant.REQUEST_WX_EXCEPTION_CODE, RequestConstant.REQUEST_WX_EXCEPTION_MSG);
         }
 
         if(Strings.isNullOrEmpty(openId)){

@@ -21,11 +21,13 @@
     <sql id="Base_Column_List">
       goods_id, goods_name, goods_desc, goods_price, goods_small_image_url,
       goods_big_image1_url, goods_big_image2_url, goods_big_image3_url,
-      g.goods_count, goods_sales_volume, create_time, update_time
+      goods_count, goods_sales_volume, create_time, update_time
     </sql>
 
     <sql id="HomePage_Column_List">
-      g.goods_id, g.goods_name, g.goods_desc, g.goods_price, g.goods_small_image_url, g.goods_sales_volume, g.goods_count
+      g.goods_id, g.goods_name, g.goods_desc, g.goods_price, g.goods_small_image_url,
+      g.goods_big_image1_url, g.goods_big_image2_url, g.goods_big_image3_url,
+      g.goods_count, g.goods_sales_volume, g.create_time, g.update_time
     </sql>
 
     <!--获取种类下的商品列表-->

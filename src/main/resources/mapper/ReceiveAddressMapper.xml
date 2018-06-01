@@ -10,6 +10,7 @@
         <result column="receive_address_contact_name" property="receiveAddressContactName" jdbcType="VARCHAR" javaType="String"  />
         <result column="receive_address_contact_phone" property="receiveAddressContactPhone" jdbcType="VARCHAR" javaType="String"  />
         <result column="open_id" property="userOpenId" jdbcType="VARCHAR" javaType="String"  />
+        <result column="is_default" property="isDefault" jdbcType="TINYINT" javaType="Boolean"  />
         <result column="create_time" property="createTime" jdbcType="TIMESTAMP" javaType="java.sql.Timestamp"  />
         <result column="update_time" property="createTime" jdbcType="TIMESTAMP" javaType="java.sql.Timestamp"  />
     </resultMap>
@@ -17,7 +18,7 @@
     <sql id="Base_Column_List">
       receive_address_id, receive_address_content, receive_address_zip_code,
       receive_address_contact_name,receive_address_contact_phone, open_id,
-      create_time, update_time
+      is_default, create_time, update_time
 
     </sql>
 
@@ -25,22 +26,31 @@
     <insert id="insertReceivreAddress" parameterType="com.threebrother.qofood.entity.ReceiveAddress" >
       insert into t_receive_address
         (receive_address_content, receive_address_zip_code,
-        receive_address_contact_name,receive_address_contact_phone, open_id)
+        receive_address_contact_name,receive_address_contact_phone, is_default, open_id)
       values
         (#{receiveAddressContent}, #{receiveAddressZipCode},
-        #{receiveAddressContactName}, #{receiveAddressContactPhone}, #{userOpenId})
+        #{receiveAddressContactName}, #{receiveAddressContactPhone}, #{isDefault}, #{userOpenId})
     </insert>
 
+    <!-- 获取用户收件地址列表个数-->
+    <select id="selectCountByUserOpenId" parameterType="string" resultType="int">
+      SELECT
+          count(*)
+      FROM
+        t_receive_address
+      WHERE
+        open_id = #{userOpenId};
+    </select>
 
-    <!--是否存在-->
-    <!--<select id="isExistByOpenId" parameterType="string" resultType="int">-->
-      <!--select-->
-         <!--count(*)-->
-       <!--from-->
-         <!--t_user-->
-       <!--where-->
-        <!--open_id = #{openId}-->
-       <!--LIMIT 1-->
-    <!--</select>-->
+
+    <!-- 获取用户收件地址列表-->
+    <select id="selectReceiveAddressListByUserOpenId" parameterType="string" resultMap="BaseResultMap">
+      SELECT
+        <include refid="Base_Column_List" />
+      FROM
+        t_receive_address
+      WHERE
+        open_id = #{userOpenId};
+    </select>
 
 </mapper>

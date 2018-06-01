@@ -17,6 +17,8 @@ public class ReceiveAddress implements Serializable {
 
     private String userOpenId;
 
+    private Boolean isDefault;
+
     private Timestamp createTime;
 
     private Timestamp updateTime;
@@ -67,6 +69,14 @@ public class ReceiveAddress implements Serializable {
 
     public void setUserOpenId(String userOpenId) {
         this.userOpenId = userOpenId;
+    }
+
+    public Boolean getDefault() {
+        return isDefault;
+    }
+
+    public void setDefault(Boolean aDefault) {
+        isDefault = aDefault;
     }
 
     public Timestamp getCreateTime() {

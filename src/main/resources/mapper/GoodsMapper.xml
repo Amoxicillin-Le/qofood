@@ -32,7 +32,7 @@
 
     <!--获取种类下的商品列表-->
     <select id="selectListByCategoryId" resultMap="BaseResultMap" parameterType="Integer" >
-        select
+        SELECT
           <include refid="HomePage_Column_List" />
         FROM
           t_category_goods_rel cgrel
@@ -47,7 +47,7 @@
 
     <!--根据id获取商品对象-->
     <select id="selectByGoodsId" resultMap="BaseResultMap" parameterType="Integer" >
-        select
+        SELECT
           <include refid="Base_Column_List" />
         FROM
           t_goods

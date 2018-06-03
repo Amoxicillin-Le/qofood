@@ -8,6 +8,7 @@ import com.threebrother.qofood.entity.ReceiveAddress;
 import com.threebrother.qofood.service.ReceiveAddressService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -48,7 +49,9 @@ public class ReceiveAddressServiceImpl implements ReceiveAddressService {
     }
 
     @Override
+    @Transactional
     public void deleteReceiveAddress(int receiveAddressId, String userOpenId) {
+
 
         List<ReceiveAddress> receiveAddresses = receivreAddressMapper.selectReceiveAddressListByUserOpenId(userOpenId);
         if(receiveAddresses.isEmpty() || receivreAddressMapper.selectReceiveAddressListByUserOpenId(userOpenId).size() <= Constant.INT_ONE){
@@ -62,6 +65,7 @@ public class ReceiveAddressServiceImpl implements ReceiveAddressService {
         }
 
         receivreAddressMapper.deleteReceivreAddressByReceiveAddressIdAndUserOpenId(receiveAddressId, userOpenId);
+
 
         if (receiveAddress.getDefault()) {
             receiveAddress = receivreAddressMapper.selectReceiveAddressByUserOpenIdOrderByCreateTime(receiveAddress.getReceiveAddressId() ,userOpenId);

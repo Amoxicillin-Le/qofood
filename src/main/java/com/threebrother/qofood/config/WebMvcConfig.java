@@ -26,7 +26,7 @@ import java.util.List;
 public class WebMvcConfig extends WebMvcConfigurerAdapter {
 
 
-    //重写configureMessageConverters 消息转换器
+    //重写configureMessageConverters 消息转换器 更换为阿里的FastJosn
     @Override
     public void configureMessageConverters(List<HttpMessageConverter<?>> converters) {
         FastJsonHttpMessageConverter fastJsonHttpMessageConverter = new FastJsonHttpMessageConverter();
@@ -53,6 +53,8 @@ public class WebMvcConfig extends WebMvcConfigurerAdapter {
             @Override
             public ModelAndView resolveException(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse, Object o, Exception e) {
 
+                // 打印日志
+                e.printStackTrace();
                 Result result = new Result();
 
                 if(o instanceof HandlerMethod){

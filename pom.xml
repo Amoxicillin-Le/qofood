@@ -93,7 +93,7 @@
             <version>1.2.6</version>
         </dependency>
 
-        <!--微信获取用户信息使用 加解密-->
+        <!--微信获取用户信息使用 加解密 TODO 这里需要注释，该jar包添加至\Java\jdk1.8.0_121\jre\lib\ext目录下，否则报错-->
         <dependency>
             <groupId>org.bouncycastle</groupId>
             <artifactId>bcprov-jdk16</artifactId>

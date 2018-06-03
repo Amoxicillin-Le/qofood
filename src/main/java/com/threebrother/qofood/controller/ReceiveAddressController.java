@@ -1,5 +1,8 @@
 package com.threebrother.qofood.controller;
 
+import com.google.common.base.Strings;
+import com.threebrother.qofood.common.RequestConstant;
+import com.threebrother.qofood.common.exception.BusinessException;
 import com.threebrother.qofood.entity.ReceiveAddress;
 import com.threebrother.qofood.model.Result;
 import com.threebrother.qofood.service.ReceiveAddressService;
@@ -40,5 +43,28 @@ public class ReceiveAddressController {
         receiveAddresses = receiveAddressService.getUserReceiveAddressList(userOpenId);
 
         return ResultUtil.success(receiveAddresses);
+    }
+
+
+    @RequestMapping(value = "/receiveAddress/update")
+    @ResponseBody
+    public Result updateReceiveAddress(@RequestBody ReceiveAddress receiveAddress){
+
+        if (Strings.isNullOrEmpty(receiveAddress.getUserOpenId()) || null == receiveAddress.getReceiveAddressId()) {
+            throw new BusinessException(RequestConstant.UPDATA_RECEIVE_ADDRESS_PARAMETER_ERROR_CODE, RequestConstant.UPDATA_RECEIVE_ADDRESS_PARAMETER_ERROR_MSG);
+        }
+
+        receiveAddressService.updateReceiveAddress(receiveAddress);
+
+        return ResultUtil.success();
+    }
+
+    @RequestMapping(value = "/receiveAddress/delete")
+    @ResponseBody
+    public Result deleteReceiveAddress(@RequestParam int receiveAddressId, @RequestParam String userOpenId){
+
+        receiveAddressService.deleteReceiveAddress(receiveAddressId, userOpenId);
+
+        return ResultUtil.success();
     }
 }

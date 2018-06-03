@@ -53,4 +53,67 @@
         open_id = #{userOpenId};
     </select>
 
+    <!-- 获取用户收件地址列 根据主键Id和userOpenId-->
+    <select id="selectReceiveAddressByreceiveAddressIdAndUserOpenId" resultMap="BaseResultMap">
+      SELECT
+        <include refid="Base_Column_List" />
+      FROM
+        t_receive_address
+      WHERE
+        receive_address_id = ${receiveAddressId}
+      AND
+        open_id = #{userOpenId}
+      LIMIT 1;
+    </select>
+
+    <update id="updateReceivreAddressByReceiveAddressIdAndUserOpenId" parameterType="com.threebrother.qofood.entity.ReceiveAddress">
+      UPDATE
+        t_receive_address
+      SET
+        receive_address_content = #{receiveAddressContent},
+        receive_address_zip_code  = #{receiveAddressZipCode},
+        receive_address_contact_name = #{receiveAddressContactName},
+        receive_address_contact_phone = #{receiveAddressContactPhone},
+        update_time = CURRENT_TIMESTAMP
+      WHERE
+        receive_address_id = ${receiveAddressId}
+      AND
+        open_id = #{userOpenId}
+    </update>
+
+    <delete id="deleteReceivreAddressByReceiveAddressIdAndUserOpenId" >
+      DELETE FROM
+        t_receive_address
+      WHERE
+        receive_address_id = ${receiveAddressId}
+      AND
+        open_id = #{userOpenId}
+    </delete>
+
+
+    <select id="selectReceiveAddressByUserOpenIdOrderByCreateTime" resultMap="BaseResultMap">
+      SELECT
+        <include refid="Base_Column_List" />
+      FROM
+        t_receive_address
+      WHERE
+        open_id = #{userOpenId}
+      AND
+        receive_address_id != ${receiveAddressId}
+      ORDER BY
+        create_time DESC
+      LIMIT 1;
+    </select>
+
+
+    <update id="updateIsDefaultByReceiveAddressId" parameterType="Integer">
+      UPDATE
+        t_receive_address
+      SET
+        is_default = 1,
+        update_time = CURRENT_TIMESTAMP
+      WHERE
+        receive_address_id = ${receiveAddressId}
+    </update>
+
 </mapper>

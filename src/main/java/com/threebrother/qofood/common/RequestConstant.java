@@ -22,4 +22,20 @@ public class RequestConstant {
 
     public final static String SAVE_USER_FAILE_MSG = "保存用户信息失败";
 
+    public final static String UPDATA_RECEIVE_ADDRESS_PARAMETER_ERROR_CODE = "5001";
+
+    public final static String UPDATA_RECEIVE_ADDRESS_PARAMETER_ERROR_MSG = "Request parameter \"ID\" does not exist";
+
+    public final static String UPDATA_RECEIVE_ADDRESS_FAILE_CODE = "5000";
+
+    public final static String UPDATA_RECEIVE_ADDRESS_FAILE_MSG = "更新失败";
+
+    public final static String DELETE_RECEIVE_ADDRESS_FAILE_CODE = "5004";
+
+    public final static String DELETE_RECEIVE_ADDRESS_FAILE_MSG = "刪除失败";
+
+
+
+
+
 }

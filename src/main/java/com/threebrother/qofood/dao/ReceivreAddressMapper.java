@@ -3,6 +3,7 @@ package com.threebrother.qofood.dao;
 
 import com.threebrother.qofood.entity.ReceiveAddress;
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 
@@ -14,4 +15,14 @@ public interface ReceivreAddressMapper {
     List<ReceiveAddress> selectReceiveAddressListByUserOpenId(String userOpenId);
 
     int selectCountByUserOpenId(String userOpenId);
+
+    ReceiveAddress selectReceiveAddressByreceiveAddressIdAndUserOpenId(@Param("receiveAddressId") Integer receiveAddressId, @Param("userOpenId") String userOpenId);
+
+    void updateReceivreAddressByReceiveAddressIdAndUserOpenId(ReceiveAddress receiveAddress);
+
+    void deleteReceivreAddressByReceiveAddressIdAndUserOpenId(@Param("receiveAddressId") Integer receiveAddressId, @Param("userOpenId") String userOpenId);
+
+    ReceiveAddress selectReceiveAddressByUserOpenIdOrderByCreateTime(@Param("receiveAddressId") Integer receiveAddressId, @Param("userOpenId") String userOpenId);
+
+    void updateIsDefaultByReceiveAddressId(@Param("receiveAddressId") Integer receiveAddressId);
 }

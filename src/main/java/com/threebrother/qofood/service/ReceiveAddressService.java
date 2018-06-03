@@ -9,4 +9,8 @@ public interface ReceiveAddressService {
     void saveReceiveAddress(ReceiveAddress receiveAddress);
 
     List<ReceiveAddress> getUserReceiveAddressList(String userOpenId);
+
+    void updateReceiveAddress(ReceiveAddress receiveAddress);
+
+    void deleteReceiveAddress(int receiveAddressId, String userOpenId);
 }

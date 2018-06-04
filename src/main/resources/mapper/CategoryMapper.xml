@@ -18,11 +18,11 @@
 
     <!--获取可以显示的种类列表-->
     <select id="selectListByIsShow" resultMap="BaseResultMap" parameterType="Boolean" >
-        select
+        SELECT
           <include refid="Base_Column_List" />
-        from
+        FROM
           t_category
-        where
+        WHERE
           is_show = #{isShow}
     </select>
 

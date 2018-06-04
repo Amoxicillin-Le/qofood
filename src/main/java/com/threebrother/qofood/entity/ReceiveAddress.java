@@ -19,6 +19,14 @@ public class ReceiveAddress implements Serializable {
 
     private Boolean isDefault;
 
+    private String receiveAddressProvince;
+
+    private String receiveAddressCity;
+
+    private String receiveAddressArea;
+
+    private String receiveAddressStreet;
+
     private Timestamp createTime;
 
     private Timestamp updateTime;
@@ -77,6 +85,38 @@ public class ReceiveAddress implements Serializable {
 
     public void setDefault(Boolean aDefault) {
         isDefault = aDefault;
+    }
+
+    public String getReceiveAddressProvince() {
+        return receiveAddressProvince;
+    }
+
+    public void setReceiveAddressProvince(String receiveAddressProvince) {
+        this.receiveAddressProvince = receiveAddressProvince;
+    }
+
+    public String getReceiveAddressCity() {
+        return receiveAddressCity;
+    }
+
+    public void setReceiveAddressCity(String receiveAddressCity) {
+        this.receiveAddressCity = receiveAddressCity;
+    }
+
+    public String getReceiveAddressArea() {
+        return receiveAddressArea;
+    }
+
+    public void setReceiveAddressArea(String receiveAddressArea) {
+        this.receiveAddressArea = receiveAddressArea;
+    }
+
+    public String getReceiveAddressStreet() {
+        return receiveAddressStreet;
+    }
+
+    public void setReceiveAddressStreet(String receiveAddressStreet) {
+        this.receiveAddressStreet = receiveAddressStreet;
     }
 
     public Timestamp getCreateTime() {

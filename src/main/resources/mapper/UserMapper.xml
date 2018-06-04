@@ -20,21 +20,21 @@
 
     <!--是否存在-->
     <select id="isExistByOpenId" parameterType="string" resultType="int">
-      select
-         count(*)
-       from
-         t_user
-       where
+      SELECT
+        count(*)
+      FROM
+        t_user
+      where
         open_id = #{openId}
-       LIMIT 1
+      LIMIT 1
     </select>
 
 
     <!--插入-->
     <insert id="insetUserByOpenId" parameterType="string" >
-      insert into
+      INSERT INTO
         t_user(open_id)
-      values
+      VALUES
         (#{openId})
     </insert>
 

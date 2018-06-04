@@ -11,25 +11,33 @@
         <result column="receive_address_contact_phone" property="receiveAddressContactPhone" jdbcType="VARCHAR" javaType="String"  />
         <result column="open_id" property="userOpenId" jdbcType="VARCHAR" javaType="String"  />
         <result column="is_default" property="isDefault" jdbcType="TINYINT" javaType="Boolean"  />
+
+        <result column="receive_address_province" property="receiveAddressProvince" jdbcType="VARCHAR" javaType="String"  />
+        <result column="receive_address_city" property="receiveAddressCity" jdbcType="VARCHAR" javaType="String"  />
+        <result column="receive_address_area" property="receiveAddressArea" jdbcType="VARCHAR" javaType="String"  />
+        <result column="receive_address_street" property="receiveAddressStreet" jdbcType="VARCHAR" javaType="String"  />
+
         <result column="create_time" property="createTime" jdbcType="TIMESTAMP" javaType="java.sql.Timestamp"  />
         <result column="update_time" property="createTime" jdbcType="TIMESTAMP" javaType="java.sql.Timestamp"  />
     </resultMap>
 
     <sql id="Base_Column_List">
       receive_address_id, receive_address_content, receive_address_zip_code,
-      receive_address_contact_name,receive_address_contact_phone, open_id,
-      is_default, create_time, update_time
-
+      receive_address_contact_name,receive_address_contact_phone, open_id, is_default,
+      receive_address_province, receive_address_city, receive_address_area, receive_address_street,
+      create_time, update_time
     </sql>
 
     <!--插入-->
     <insert id="insertReceivreAddress" parameterType="com.threebrother.qofood.entity.ReceiveAddress" >
-      insert into t_receive_address
+      INSERT INTO t_receive_address
         (receive_address_content, receive_address_zip_code,
-        receive_address_contact_name,receive_address_contact_phone, is_default, open_id)
+        receive_address_contact_name,receive_address_contact_phone, is_default, open_id,
+        receive_address_province, receive_address_city, receive_address_area, receive_address_street)
       values
         (#{receiveAddressContent}, #{receiveAddressZipCode},
-        #{receiveAddressContactName}, #{receiveAddressContactPhone}, #{isDefault}, #{userOpenId})
+        #{receiveAddressContactName}, #{receiveAddressContactPhone}, #{isDefault}, #{userOpenId},
+        #{receiveAddressProvince}, #{receiveAddressCity}, #{receiveAddressArea}, #{receiveAddressStreet})
     </insert>
 
     <!-- 获取用户收件地址列表个数-->
@@ -41,7 +49,6 @@
       WHERE
         open_id = #{userOpenId};
     </select>
-
 
     <!-- 获取用户收件地址列表-->
     <select id="selectReceiveAddressListByUserOpenId" parameterType="string" resultMap="BaseResultMap">
@@ -74,6 +81,10 @@
         receive_address_zip_code  = #{receiveAddressZipCode},
         receive_address_contact_name = #{receiveAddressContactName},
         receive_address_contact_phone = #{receiveAddressContactPhone},
+        receive_address_province = #{receiveAddressProvince},
+        receive_address_city = #{receiveAddressCity},
+        receive_address_area = #{receiveAddressArea},
+        receive_address_street = #{receiveAddressStreet},
         update_time = CURRENT_TIMESTAMP
       WHERE
         receive_address_id = ${receiveAddressId}

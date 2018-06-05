@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+<mapper namespace="com.threebrother.qofood.dao.OrderDetailMapper" >
+
+    <resultMap id="BaseResultMap" type="com.threebrother.qofood.entity.OrderDetail" >
+        <id     column="order_detail_id"        property="orderDetailId"        jdbcType="INTEGER"      javaType="Integer"/>
+        <result column="goods_id"               property="goodsId"              jdbcType="INTEGER"      javaType="Integer" />
+        <result column="goods_num"              property="goodsNum"             jdbcType="INTEGER"      javaType="Integer"/>
+        <result column="goods_small_image_url"  property="goodsSmallImageUrl"   jdbcType="VARCHAR"      javaType="String"  />
+        <result column="goods_price"            property="goodsPrice"           jdbcType="DECIMAL"      javaType="java.math.BigDecimal" />
+        <result column="goods_preferential_price" property="goodsPreferentialPrice" jdbcType="DECIMAL"      javaType="java.math.BigDecimal" />
+        <result column="total_free"             property="totalFree"            jdbcType="DECIMAL"      javaType="java.math.BigDecimal"  />
+        <result column="total_preferential_free"  property="totalPreferentialFree"  jdbcType="DECIMAL"      javaType="java.math.BigDecimal"  />
+        <result column="order_id"               property="orderId"              jdbcType="VARCHAR"      javaType="String"  />
+        <result column="create_time"            property="createTime"           jdbcType="TIMESTAMP"    javaType="java.sql.Timestamp"  />
+        <result column="is_remove"              property="isRemove"             jdbcType="TINYINT"    javaType="Boolean"  />
+        <result column="remove_time"            property="removeTime"           jdbcType="TIMESTAMP"    javaType="java.sql.Timestamp"  />
+    </resultMap>
+
+    <sql id="Base_Column_List">
+      order_detail_id, goods_id, goods_num, goods_small_image_url,
+      goods_price, goods_preferential_price, total_free, total_preferential_free,
+      order_id, create_time, is_remove, remove_time
+    </sql>
+
+
+    <!--批量插入-->
+    <insert id="insertBatchByOrderDetailList" parameterType="java.util.List">
+        INSERT INTO
+          t_order_detail
+          (goods_id, goods_num, goods_small_image_url,
+          goods_price, goods_preferential_price, total_free, total_preferential_free,
+          order_id)
+        VALUES
+            <foreach collection="list" item="item" index="index" separator =",">
+                (#{item.goodsId}, #{item.goodsNum}, #{item.goodsSmallImageUrl},
+                #{item.goodsPrice}, #{item.goodsPreferentialPrice}, #{item.totalFree}, #{item.totalPreferentialFree},
+                #{item.orderId})
+            </foreach>
+    </insert>
+
+
+    <select id="selectOrderDetailListByOrderId" parameterType="String" resultMap="BaseResultMap">
+      SELECT
+        <include refid="Base_Column_List" />
+      FROM
+        t_order_detail
+      WHERE
+        order_id = #{orderId}
+    </select>
+</mapper>

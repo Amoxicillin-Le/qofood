@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+<mapper namespace="com.threebrother.qofood.dao.PreferentialStrategyMapper" >
+
+    <resultMap id="BaseResultMap" type="com.threebrother.qofood.entity.PreferentialStrategy" >
+        <id column="preferential_strategy_id" property="preferentialStrategyId" jdbcType="INTEGER" javaType="Integer"/>
+        <result column="preferential_strategy_type" property="preferentialStrategyType" jdbcType="INTEGER" javaType="Integer" />
+    </resultMap>
+
+    <select id="getPreferentialStrategyTypeById" resultType="Integer" >
+        SELECT
+          preferential_strategy_type
+        FROM
+          t_preferential_strategy
+        WHERE
+          preferential_strategy_id = 1;
+    </select>
+</mapper>

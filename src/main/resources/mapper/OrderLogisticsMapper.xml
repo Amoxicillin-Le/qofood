@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+<mapper namespace="com.threebrother.qofood.dao.OrderLogisticsMapper" >
+
+    <resultMap id="BaseResultMap" type="com.threebrother.qofood.entity.OrderLogistics" >
+        <id     column="order_logistics_id"     property="orderLogisticsId"     jdbcType="INTEGER"      javaType="Integer"/>
+        <result column="order_id"               property="orderId"              jdbcType="VARCHAR"      javaType="String" />
+        <result column="receive_contact_name"   property="receiveContactName"   jdbcType="VARCHAR"      javaType="String"/>
+        <result column="receive_contact_phone"  property="receiveContactPhone"   jdbcType="VARCHAR"      javaType="String"  />
+        <result column="receive_zip_code"       property="receiveZipCode"       jdbcType="VARCHAR"      javaType="String" />
+        <result column="receive_province"       property="receiveProvince"      jdbcType="VARCHAR"      javaType="String" />
+        <result column="receive_city"           property="receciceCity"         jdbcType="VARCHAR"      javaType="String"  />
+        <result column="receive_area"           property="receiveArea"          jdbcType="VARCHAR"      javaType="String"  />
+        <result column="receive_street"         property="receiveStreet"        jdbcType="VARCHAR"      javaType="String"  />
+        <result column="create_time"            property="createTime"           jdbcType="TIMESTAMP"    javaType="java.sql.Timestamp"  />
+        <result column="update_time"            property="updateTime"           jdbcType="TIMESTAMP"    javaType="java.sql.Timestamp"  />
+    </resultMap>
+
+    <sql id="Base_Column_List">
+      order_logistics_id, order_id,
+      receive_contact_name, receive_contact_name, receive_zip_code,
+      receive_province, receive_city, receive_area, receive_street,
+      create_time, update_time
+    </sql>
+
+
+    <insert id="insertOrderLogistics" parameterType="com.threebrother.qofood.entity.OrderLogistics">
+      INSERT INTO
+        t_order_logistics
+        (order_id, receive_contact_name, receive_contact_phone, receive_zip_code,
+        receive_province, receive_city, receive_area, receive_street)
+      VALUES
+        (#{orderId}, #{receiveContactName}, #{receiveContactPhone}, #{receiveZipCode},
+        #{receiveProvince}, #{receciceCity}, #{receiveArea}, #{receiveStreet})
+    </insert>
+
+    <select id="selectOrderLogisticsByOrderId" parameterType="String" resultMap="BaseResultMap">
+      SELECT
+        <include refid="Base_Column_List" />
+      FROM
+        t_order_logistics
+      WHERE
+        order_id = #{orderId}
+      LIMIT 1
+    </select>
+
+    <update id="updateOrderLogistics" parameterType="com.threebrother.qofood.entity.OrderLogistics">
+      UPDATE
+        t_order_logistics
+      SET
+        receive_contact_name = #{receiveContactName},
+        receive_contact_phone = #{receiveContactPhone},
+        receive_zip_code = #{receiveZipCode},
+        receive_province = #{receiveProvince},
+        receive_city = #{receciceCity},
+        receive_area = #{receiveArea},
+        receive_street =#{receiveStreet},
+        update_time = CURRENT_TIMESTAMP
+      WHERE
+        order_logistics_id = #{orderLogisticsId}
+    </update>
+
+</mapper>

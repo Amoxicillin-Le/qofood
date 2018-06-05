@@ -25,4 +25,10 @@ public interface ReceivreAddressMapper {
     ReceiveAddress selectReceiveAddressByUserOpenIdOrderByCreateTime(@Param("receiveAddressId") Integer receiveAddressId, @Param("userOpenId") String userOpenId);
 
     void updateIsDefaultByReceiveAddressId(@Param("receiveAddressId") Integer receiveAddressId);
+
+    int selectDefaultReceiceAddressIdByUserOpenId(String userOpenId);
+
+    ReceiveAddress selectDefaultReceiceAddressByUserOpenId(String userOpenId);
+
+    List<ReceiveAddress> selectreceiveAddressListByUserOpenIdGroupByIsDefaultAndCreateTime(String userOpenId);
 }

@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+<mapper namespace="com.threebrother.qofood.dao.OrderMapper" >
+
+    <resultMap id="BaseResultMap" type="com.threebrother.qofood.entity.Order" >
+        <id     column="order_id"               property="orderId"              jdbcType="VARCHAR"      javaType="String"/>
+        <result column="should_payment_amount"  property="shouldPaymentAmount"  jdbcType="DECIMAL"      javaType="java.math.BigDecimal" />
+        <result column="actual_payment_amount"  property="actualPaymentAmount"  jdbcType="DECIMAL"      javaType="java.math.BigDecimal"/>
+        <result column="freight_amount"         property="freightAmount"        jdbcType="DECIMAL"      javaType="java.math.BigDecimal" />
+        <result column="order_status"           property="orderStatus"          jdbcType="INTEGER"      javaType="Integer"  />
+        <result column="is_delete"              property="isDelete"             jdbcType="TINYINT"      javaType="Boolean"  />
+        <result column="open_id"                property="userOpenId"           jdbcType="VARCHAR"      javaType="String"  />
+        <result column="order_remarks"          property="orderRemarks"         jdbcType="VARCHAR"      javaType="String"  />
+        <result column="extend"                 property="extend"               jdbcType="VARCHAR"      javaType="String"  />
+        <result column="logistics_name"         property="logisticsName"        jdbcType="VARCHAR"      javaType="String"  />
+        <result column="logistics_consign_no"   property="logisticsConsignNo"   jdbcType="VARCHAR"      javaType="String"  />
+        <result column="payment_time"           property="paymentTime"          jdbcType="TIMESTAMP"    javaType="java.sql.Timestamp"  />
+        <result column="consign_time"           property="consignTime"          jdbcType="TIMESTAMP"    javaType="java.sql.Timestamp"  />
+        <result column="create_time"            property="createTime"           jdbcType="TIMESTAMP"    javaType="java.sql.Timestamp"  />
+        <result column="update_time"            property="updateTime"           jdbcType="TIMESTAMP"    javaType="java.sql.Timestamp"  />
+        <result column="delete_time"            property="deleteTime"           jdbcType="TIMESTAMP"    javaType="java.sql.Timestamp"  />
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        order_id, should_payment_amount, actual_payment_amount, freight_amount,
+        order_status, is_delete, open_id, order_remarks,logistics_name, logistics_consign_no,
+        payment_time, consign_time, create_time, update_time, delete_time
+    </sql>
+
+    <!--<sql id="HomePage_Column_List">-->
+    <!--</sql>-->
+
+    <insert id="insertOrder" parameterType="com.threebrother.qofood.entity.Order">
+      INSERT INTO
+        t_order
+        (order_id, should_payment_amount, actual_payment_amount, freight_amount,
+        order_status, open_id)
+      VALUES
+        (#{orderId}, #{shouldPaymentAmount}, #{actualPaymentAmount}, #{freightAmount},
+        #{orderStatus}, #{userOpenId})
+    </insert>
+
+    <select id="selectOrderByOrderIdAndUserOpenId" resultMap="BaseResultMap">
+      SELECT
+        <include refid="Base_Column_List" />
+      FROM
+        t_order
+      WHERE
+        order_id = #{orderId}
+      AND
+        open_id = #{userOpenId}
+      AND
+        is_delete = 0
+      LIMIT 1
+    </select>
+
+    <select id="selectOrderIdListByUserOpenIdAndOrderStatus"  resultType="String">
+      SELECT
+        order_id
+      FROM
+        t_order
+      WHERE
+        open_id = #{userOpenId}
+      AND
+        order_status = #{orderStatus}
+      AND
+        is_delete = 0
+    </select>
+
+    <update id="updateOrderAmountByOrder" parameterType="com.threebrother.qofood.entity.Order">
+      UPDATE
+        t_order
+      SET
+        should_payment_amount = #{shouldPaymentAmount},
+        actual_payment_amount = #{actualPaymentAmount},
+        freight_amount = #{freightAmount},
+        update_time = CURRENT_TIMESTAMP
+      WHERE
+        order_id = #{orderId}
+    </update>
+</mapper>

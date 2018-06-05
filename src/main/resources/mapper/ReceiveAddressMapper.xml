@@ -11,12 +11,10 @@
         <result column="receive_address_contact_phone" property="receiveAddressContactPhone" jdbcType="VARCHAR" javaType="String"  />
         <result column="open_id" property="userOpenId" jdbcType="VARCHAR" javaType="String"  />
         <result column="is_default" property="isDefault" jdbcType="TINYINT" javaType="Boolean"  />
-
         <result column="receive_address_province" property="receiveAddressProvince" jdbcType="VARCHAR" javaType="String"  />
         <result column="receive_address_city" property="receiveAddressCity" jdbcType="VARCHAR" javaType="String"  />
         <result column="receive_address_area" property="receiveAddressArea" jdbcType="VARCHAR" javaType="String"  />
         <result column="receive_address_street" property="receiveAddressStreet" jdbcType="VARCHAR" javaType="String"  />
-
         <result column="create_time" property="createTime" jdbcType="TIMESTAMP" javaType="java.sql.Timestamp"  />
         <result column="update_time" property="createTime" jdbcType="TIMESTAMP" javaType="java.sql.Timestamp"  />
     </resultMap>
@@ -67,7 +65,7 @@
       FROM
         t_receive_address
       WHERE
-        receive_address_id = ${receiveAddressId}
+        receive_address_id = #{receiveAddressId}
       AND
         open_id = #{userOpenId}
       LIMIT 1;
@@ -87,7 +85,7 @@
         receive_address_street = #{receiveAddressStreet},
         update_time = CURRENT_TIMESTAMP
       WHERE
-        receive_address_id = ${receiveAddressId}
+        receive_address_id = #{receiveAddressId}
       AND
         open_id = #{userOpenId}
     </update>
@@ -96,7 +94,7 @@
       DELETE FROM
         t_receive_address
       WHERE
-        receive_address_id = ${receiveAddressId}
+        receive_address_id = #{receiveAddressId}
       AND
         open_id = #{userOpenId}
     </delete>
@@ -110,7 +108,7 @@
       WHERE
         open_id = #{userOpenId}
       AND
-        receive_address_id != ${receiveAddressId}
+        receive_address_id != #{receiveAddressId}
       ORDER BY
         create_time DESC
       LIMIT 1;
@@ -124,7 +122,46 @@
         is_default = 1,
         update_time = CURRENT_TIMESTAMP
       WHERE
-        receive_address_id = ${receiveAddressId}
+        receive_address_id = #{receiveAddressId}
     </update>
+
+
+    <select id="selectDefaultReceiceAddressIdByUserOpenId" parameterType="String" resultType="int">
+      SELECT
+        receive_address_id
+      FROM
+        t_receive_address
+      WHERE
+        open_id = #{userOpenId}
+      AND
+        is_default = 1
+      LIMIT 1;
+    </select>
+
+    <select id="selectDefaultReceiceAddressByUserOpenId" parameterType="String" resultMap="BaseResultMap">
+      SELECT
+        <include refid="Base_Column_List" />
+      FROM
+        t_receive_address
+      WHERE
+        open_id = #{userOpenId}
+      AND
+        is_default = 1
+      LIMIT 1;
+    </select>
+
+    <select id="selectreceiveAddressListByUserOpenIdGroupByIsDefaultAndCreateTime" parameterType="String" resultMap="BaseResultMap">
+      SELECT
+        <include refid="Base_Column_List" />
+      FROM
+        t_receive_address
+      WHERE
+        open_id = #{userOpenId}
+      ORDER BY
+        is_default DESC,
+        create_time DESC
+    </select>
+
+
 
 </mapper>

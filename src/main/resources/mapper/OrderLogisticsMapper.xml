@@ -19,7 +19,7 @@
 
     <sql id="Base_Column_List">
       order_logistics_id, order_id,
-      receive_contact_name, receive_contact_name, receive_zip_code,
+      receive_contact_name, receive_contact_phone, receive_zip_code,
       receive_province, receive_city, receive_area, receive_street,
       create_time, update_time
     </sql>

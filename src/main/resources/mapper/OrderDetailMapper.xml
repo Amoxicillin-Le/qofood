@@ -7,6 +7,8 @@
         <id     column="order_detail_id"        property="orderDetailId"        jdbcType="INTEGER"      javaType="Integer"/>
         <result column="goods_id"               property="goodsId"              jdbcType="INTEGER"      javaType="Integer" />
         <result column="goods_num"              property="goodsNum"             jdbcType="INTEGER"      javaType="Integer"/>
+        <result column="goods_name"             property="goodsName"            jdbcType="VARCHAR"      javaType="String"  />
+        <result column="goods_desc"             property="goodsDesc"            jdbcType="VARCHAR"      javaType="String"  />
         <result column="goods_small_image_url"  property="goodsSmallImageUrl"   jdbcType="VARCHAR"      javaType="String"  />
         <result column="goods_price"            property="goodsPrice"           jdbcType="DECIMAL"      javaType="java.math.BigDecimal" />
         <result column="goods_preferential_price" property="goodsPreferentialPrice" jdbcType="DECIMAL"      javaType="java.math.BigDecimal" />
@@ -19,7 +21,7 @@
     </resultMap>
 
     <sql id="Base_Column_List">
-      order_detail_id, goods_id, goods_num, goods_small_image_url,
+      order_detail_id, goods_id, goods_num, goods_name, goods_desc, goods_small_image_url,
       goods_price, goods_preferential_price, total_free, total_preferential_free,
       order_id, create_time, is_remove, remove_time
     </sql>
@@ -29,12 +31,12 @@
     <insert id="insertBatchByOrderDetailList" parameterType="java.util.List">
         INSERT INTO
           t_order_detail
-          (goods_id, goods_num, goods_small_image_url,
+          (goods_id, goods_num, goods_name, goods_desc, goods_small_image_url,
           goods_price, goods_preferential_price, total_free, total_preferential_free,
           order_id)
         VALUES
             <foreach collection="list" item="item" index="index" separator =",">
-                (#{item.goodsId}, #{item.goodsNum}, #{item.goodsSmallImageUrl},
+                (#{item.goodsId}, #{item.goodsNum}, #{goodsName}, #{goodsDesc}, #{item.goodsSmallImageUrl},
                 #{item.goodsPrice}, #{item.goodsPreferentialPrice}, #{item.totalFree}, #{item.totalPreferentialFree},
                 #{item.orderId})
             </foreach>

@@ -4,6 +4,7 @@ import com.google.common.base.Strings;
 import com.threebrother.qofood.common.RequestConstant;
 import com.threebrother.qofood.common.exception.BusinessException;
 import com.threebrother.qofood.entity.ReceiveAddress;
+import com.threebrother.qofood.model.PO.UpdateOrderLogisticsPO;
 import com.threebrother.qofood.model.Result;
 import com.threebrother.qofood.service.ReceiveAddressService;
 import com.threebrother.qofood.util.ResultUtil;
@@ -97,9 +98,11 @@ public class ReceiveAddressController {
     })
     @RequestMapping(value = "/receiveAddress/updateIsDefault", method = {RequestMethod.POST})
     @ResponseBody
-    public Result updateReceiveAddressIsDefaule(@RequestParam int receiveAddressId, @RequestParam String userOpenId){
+    public Result updateReceiveAddressIsDefaule(@RequestBody UpdateOrderLogisticsPO updateOrderLogisticsPO){
 
-        receiveAddressService.updateReceiveAddressIsDefaule(receiveAddressId, userOpenId);
+        //TODO 此处应该校验参数是否为空
+        receiveAddressService.updateReceiveAddressIsDefaule(updateOrderLogisticsPO.getReceiveAddressId(),
+                updateOrderLogisticsPO.getUserOpenId());
 
         return ResultUtil.success();
     }

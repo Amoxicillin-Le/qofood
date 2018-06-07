@@ -24,7 +24,7 @@ public class Goods implements Serializable {
 
     private Integer goodsCount;
 
-    private Integer goodsSalesVolume;
+//    private Integer goodsSalesVolume;
 
     private Timestamp createTime;
 
@@ -105,13 +105,13 @@ public class Goods implements Serializable {
         this.goodsCount = goodsCount;
     }
 
-    public Integer getGoodsSalesVolume() {
-        return goodsSalesVolume;
-    }
+//    public Integer getGoodsSalesVolume() {
+//        return goodsSalesVolume;
+//    }
 
-    public void setGoodsSalesVolume(Integer goodsSalesVolume) {
-        this.goodsSalesVolume = goodsSalesVolume;
-    }
+//    public void setGoodsSalesVolume(Integer goodsSalesVolume) {
+//        this.goodsSalesVolume = goodsSalesVolume;
+//    }
 
     public Timestamp getCreateTime() {
         return createTime;
@@ -141,7 +141,6 @@ public class Goods implements Serializable {
                 ", goodsBig2ImageUrl='" + goodsBig2ImageUrl + '\'' +
                 ", goodsBig3ImageUrl='" + goodsBig3ImageUrl + '\'' +
                 ", goodsCount='" + goodsCount + '\'' +
-                ", goodsSalesVolume='" + goodsSalesVolume + '\'' +
                 ", createTime=" + createTime +
                 ", updateTime=" + updateTime +
                 '}';

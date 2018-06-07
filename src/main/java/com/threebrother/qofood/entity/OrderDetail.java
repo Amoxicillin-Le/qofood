@@ -12,6 +12,10 @@ public class OrderDetail implements Serializable {
 
     private Integer goodsNum;
 
+    private String goodsName;
+
+    private String goodsDesc;
+
     private String goodsSmallImageUrl;
 
     private BigDecimal goodsPrice;
@@ -55,6 +59,22 @@ public class OrderDetail implements Serializable {
 
     public void setGoodsNum(Integer goodsNum) {
         this.goodsNum = goodsNum;
+    }
+
+    public String getGoodsName() {
+        return goodsName;
+    }
+
+    public void setGoodsName(String goodsName) {
+        this.goodsName = goodsName;
+    }
+
+    public String getGoodsDesc() {
+        return goodsDesc;
+    }
+
+    public void setGoodsDesc(String goodsDesc) {
+        this.goodsDesc = goodsDesc;
     }
 
     public BigDecimal getGoodsPrice() {

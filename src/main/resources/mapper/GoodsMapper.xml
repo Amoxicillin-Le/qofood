@@ -13,7 +13,7 @@
         <result column="goods_big_image2_url" property="goodsBig2ImageUrl" jdbcType="VARCHAR" javaType="String"  />
         <result column="goods_big_image3_url" property="goodsBig3ImageUrl" jdbcType="VARCHAR" javaType="String"  />
         <result column="goods_count" property="goodsCount" jdbcType="INTEGER" javaType="Integer"  />
-        <result column="goods_sales_volume" property="goodsSalesVolume" jdbcType="INTEGER" javaType="Integer"  />
+        <!--<result column="goods_sales_volume" property="goodsSalesVolume" jdbcType="INTEGER" javaType="Integer"  />-->
         <result column="create_time" property="createTime" jdbcType="TIMESTAMP" javaType="java.sql.Timestamp"  />
         <result column="update_time" property="updateTime" jdbcType="TIMESTAMP" javaType="java.sql.Timestamp"  />
     </resultMap>

@@ -66,6 +66,8 @@
         order_status = #{orderStatus}
       AND
         is_delete = 0
+      ORDER BY
+        create_time DESC
     </select>
 
     <update id="updateOrderAmountByOrder" parameterType="com.threebrother.qofood.entity.Order">

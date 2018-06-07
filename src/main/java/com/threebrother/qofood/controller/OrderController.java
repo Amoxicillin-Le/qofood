@@ -4,10 +4,14 @@ import com.alibaba.fastjson.JSONObject;
 import com.threebrother.qofood.common.Constant;
 import com.threebrother.qofood.model.DTO.OrderDetailDTO;
 import com.threebrother.qofood.model.PO.GoodsPO;
+import com.threebrother.qofood.model.PO.UpdateOrderLogisticsPO;
 import com.threebrother.qofood.model.Result;
 import com.threebrother.qofood.service.OrderService;
 import com.threebrother.qofood.util.ResultUtil;
-import io.swagger.annotations.*;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiImplicitParam;
+import io.swagger.annotations.ApiImplicitParams;
+import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
@@ -76,9 +80,11 @@ public class OrderController {
     })
     @RequestMapping(value = "/oeder/updateLogistics", method = {RequestMethod.POST})
     @ResponseBody
-    public Result updateOrderLogistics(@RequestParam String orderId, @RequestParam String userOpenId, @RequestParam int receiveAddressId){
+    public Result updateOrderLogistics(@RequestBody UpdateOrderLogisticsPO updateOrderLogisticsPO){
 
-        orderService.updateOrderLogistics(orderId, userOpenId, receiveAddressId);
+        //TODO 此处应该校验参数是否为空
+        orderService.updateOrderLogistics(updateOrderLogisticsPO.getOrderId(),
+                updateOrderLogisticsPO.getUserOpenId(), updateOrderLogisticsPO.getReceiveAddressId());
 
         return ResultUtil.success();
     }

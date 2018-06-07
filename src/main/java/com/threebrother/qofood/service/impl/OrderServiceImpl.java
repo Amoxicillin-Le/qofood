@@ -90,6 +90,8 @@ public class OrderServiceImpl implements OrderService {
             orderDetail.setGoodsNum(goodsModel.getGoodsNum());
             orderDetail.setGoodsSmallImageUrl(goods.getGoodsSmallImageUrl());
             orderDetail.setGoodsPrice(goods.getGoodsPrice());
+            orderDetail.setGoodsName(goods.getGoodsName());
+            orderDetail.setGoodsDesc(goods.getGoodsDesc());
 
             if (goodsPO.getTotalNum() >= Constant.INT_TWO  && PreferentialStrategyTypeEnum.SINGLE_PRICE_DISCOUNT.getValue() == preferentialStrategyType) {
 

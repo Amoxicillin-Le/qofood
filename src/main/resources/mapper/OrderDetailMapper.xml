@@ -36,7 +36,7 @@
           order_id)
         VALUES
             <foreach collection="list" item="item" index="index" separator =",">
-                (#{item.goodsId}, #{item.goodsNum}, #{goodsName}, #{goodsDesc}, #{item.goodsSmallImageUrl},
+                (#{item.goodsId}, #{item.goodsNum}, #{item.goodsName}, #{item.goodsDesc}, #{item.goodsSmallImageUrl},
                 #{item.goodsPrice}, #{item.goodsPreferentialPrice}, #{item.totalFree}, #{item.totalPreferentialFree},
                 #{item.orderId})
             </foreach>

@@ -162,6 +162,14 @@
         create_time DESC
     </select>
 
+    <update id="updateReceiveAddressIsDefauleByUserOpenIdAndReceiveAddressId">
+      UPDATE
+        t_receive_address
+      SET
+        is_default = (CASE WHEN receive_address_id = #{receiveAddressId} THEN 1 ELSE 0 END)
+      WHERE
+        open_id = #{userOpenId}
+    </update>
 
 
 </mapper>

@@ -30,6 +30,10 @@ public class RequestConstant {
 
     public final static String UPDATA_RECEIVE_ADDRESS_FAILE_MSG = "更新失败";
 
+    public final static String RECEIVE_ADDRESS_NON_EXISTENT_CODE = "5100";
+
+    public final static String RECEIVE_ADDRESS_NON_EXISTENT_MSG = "收件地址不存在，变更默认地址失败";
+
     public final static String DELETE_RECEIVE_ADDRESS_FAILE_CODE = "5004";
 
     public final static String DELETE_RECEIVE_ADDRESS_FAILE_MSG = "刪除失败";
@@ -49,5 +53,6 @@ public class RequestConstant {
     public final static String UPDATE_ORDER_LOGISTICS_FAILE_RECEIVE_ADDRESS_ID_INVALID_CODE = "6020";
 
     public final static String UPDATE_ORDER_LOGISTICS_FAILE_RECEIVE_ADDRESS_ID_INVALID_MSG = "收件地址Id无效";
+
 
 }

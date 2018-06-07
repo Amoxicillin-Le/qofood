@@ -14,7 +14,7 @@
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
-        <version>1.5.4.RELEASE</version>
+        <version>1.5.10.RELEASE</version>
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
 
@@ -93,7 +93,7 @@
             <version>1.2.6</version>
         </dependency>
 
-        <!--微信获取用户信息使用 加解密 TODO 这里需要注释，该jar包添加至\Java\jdk1.8.0_121\jre\lib\ext目录下，否则报错-->
+        <!--微信获取用户信息使用 加解密 TODO 这里需要注意，将该jar包添加至JDK目录下的\jre\lib\ext目录下，否则报错-->
         <dependency>
             <groupId>org.bouncycastle</groupId>
             <artifactId>bcprov-jdk16</artifactId>
@@ -107,7 +107,7 @@
             <!--<optional>true</optional>-->
         <!--</dependency>-->
 
-        <!--google工具-->
+        <!--google guava 工具类-->
         <dependency>
             <groupId>com.google.guava</groupId>
             <artifactId>guava</artifactId>
@@ -119,6 +119,19 @@
             <groupId>org.apache.commons</groupId>
             <artifactId>commons-lang3</artifactId>
             <version>3.7</version>
+        </dependency>
+
+        <!-- Swagger -->
+        <dependency>
+            <groupId>io.springfox</groupId>
+            <artifactId>springfox-swagger2</artifactId>
+            <version>2.2.2</version>
+        </dependency>
+
+        <dependency>
+            <groupId>io.springfox</groupId>
+            <artifactId>springfox-swagger-ui</artifactId>
+            <version>2.2.2</version>
         </dependency>
 
     </dependencies>

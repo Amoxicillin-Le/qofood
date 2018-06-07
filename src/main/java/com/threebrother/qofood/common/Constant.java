@@ -16,9 +16,11 @@ public class Constant {
 
     public static String WX_FAILE_RESULT_CODE = "errcode";
 
-    public static String OPENID = "openid";
+    public static String OPENID = "openid"; // 微信返回的是该字段
 
     public static String OPEN_ID = "openId";
+
+    public static String ORDER_ID = "orderId";
 
     public static String[] SPECIAL_AREA = {"新疆", "西藏", "海南"};
 }

@@ -13,4 +13,6 @@ public interface ReceiveAddressService {
     void updateReceiveAddress(ReceiveAddress receiveAddress);
 
     void deleteReceiveAddress(int receiveAddressId, String userOpenId);
+
+    void updateReceiveAddressIsDefaule(int receiveAddressId, String userOpenId);
 }

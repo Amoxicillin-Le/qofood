@@ -79,5 +79,16 @@ public class ReceiveAddressServiceImpl implements ReceiveAddressService {
 
     }
 
+    @Override
+    public void updateReceiveAddressIsDefaule(int receiveAddressId, String userOpenId) {
+
+        ReceiveAddress receiveAddress = receivreAddressMapper.selectReceiveAddressByreceiveAddressIdAndUserOpenId(receiveAddressId, userOpenId);
+        if (null == receiveAddress) {
+            throw new BusinessException(RequestConstant.RECEIVE_ADDRESS_NON_EXISTENT_CODE, RequestConstant.RECEIVE_ADDRESS_NON_EXISTENT_MSG);
+        }
+
+        receivreAddressMapper.updateReceiveAddressIsDefauleByUserOpenIdAndReceiveAddressId(userOpenId, receiveAddressId);
+    }
+
 
 }

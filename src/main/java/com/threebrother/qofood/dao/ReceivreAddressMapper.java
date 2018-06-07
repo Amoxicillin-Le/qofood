@@ -31,4 +31,6 @@ public interface ReceivreAddressMapper {
     ReceiveAddress selectDefaultReceiceAddressByUserOpenId(String userOpenId);
 
     List<ReceiveAddress> selectreceiveAddressListByUserOpenIdGroupByIsDefaultAndCreateTime(String userOpenId);
+
+    void updateReceiveAddressIsDefauleByUserOpenIdAndReceiveAddressId(@Param("userOpenId")String userOpenId, @Param("receiveAddressId") int receiveAddressId);
 }

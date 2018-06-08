@@ -2,8 +2,7 @@ package com.threebrother.qofood.service;
 
 import com.threebrother.qofood.model.DTO.OrderDetailDTO;
 import com.threebrother.qofood.model.PO.GoodsPO;
-
-import java.util.List;
+import com.threebrother.qofood.model.PageInfo;
 
 public interface OrderService {
 
@@ -11,7 +10,7 @@ public interface OrderService {
 
     OrderDetailDTO getOrderDetailInfo(String userOpenId, String orderId);
 
-    List<OrderDetailDTO> getOrderDetailListByUserOpenIdAndOrderStatus(String userOpenId, int orderStatus);
+    PageInfo<OrderDetailDTO> getOrderDetailListByUserOpenIdAndOrderStatus(String userOpenId, int orderStatus, int pageNum, int pageSize);
 
     void updateOrderLogistics(String orderId, String userOpenId, int receiveAddressId);
 }

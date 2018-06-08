@@ -14,6 +14,8 @@ public class Goods implements Serializable {
 
     private BigDecimal goodsPrice;
 
+    private Integer goodsSalesVolume;
+
     private String goodsSmallImageUrl;
 
     private String goodsBig1ImageUrl;
@@ -63,6 +65,14 @@ public class Goods implements Serializable {
 
     public void setGoodsPrice(BigDecimal goodsPrice) {
         this.goodsPrice = goodsPrice;
+    }
+
+    public Integer getGoodsSalesVolume() {
+        return goodsSalesVolume;
+    }
+
+    public void setGoodsSalesVolume(Integer goodsSalesVolume) {
+        this.goodsSalesVolume = goodsSalesVolume;
     }
 
     public String getGoodsSmallImageUrl() {

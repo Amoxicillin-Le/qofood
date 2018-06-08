@@ -10,6 +10,8 @@ import org.springframework.boot.web.support.SpringBootServletInitializer;
 //TODO 添加swagger
 //TODO 添加分页
 //TODO 添加api文档导出:http://www.spring4all.com/article/699
+//TODO 添加应用监控 Spring Boot提供基于http、ssh、telnet 对运行时的项目进行监控。
+//TODO 修改mapper.xml文件中的;号， 对serviceimpl中添加事务
 @SpringBootApplication
 public class QofoodApplication extends SpringBootServletInitializer {
 

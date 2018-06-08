@@ -45,17 +45,17 @@
       FROM
         t_receive_address
       WHERE
-        open_id = #{userOpenId};
+        open_id = #{userOpenId}
     </select>
 
     <!-- 获取用户收件地址列表-->
-    <select id="selectReceiveAddressListByUserOpenId" parameterType="string" resultMap="BaseResultMap">
+    <select id="selectReceiveAddressListByUserOpenId" resultMap="BaseResultMap">
       SELECT
         <include refid="Base_Column_List" />
       FROM
         t_receive_address
       WHERE
-        open_id = #{userOpenId};
+        open_id = #{userOpenId}
     </select>
 
     <!-- 获取用户收件地址列 根据主键Id和userOpenId-->
@@ -68,7 +68,7 @@
         receive_address_id = #{receiveAddressId}
       AND
         open_id = #{userOpenId}
-      LIMIT 1;
+      LIMIT 1
     </select>
 
     <update id="updateReceivreAddressByReceiveAddressIdAndUserOpenId" parameterType="com.threebrother.qofood.entity.ReceiveAddress">
@@ -111,7 +111,7 @@
         receive_address_id != #{receiveAddressId}
       ORDER BY
         create_time DESC
-      LIMIT 1;
+      LIMIT 1
     </select>
 
 
@@ -135,7 +135,7 @@
         open_id = #{userOpenId}
       AND
         is_default = 1
-      LIMIT 1;
+      LIMIT 1
     </select>
 
     <select id="selectDefaultReceiceAddressByUserOpenId" parameterType="String" resultMap="BaseResultMap">
@@ -147,7 +147,7 @@
         open_id = #{userOpenId}
       AND
         is_default = 1
-      LIMIT 1;
+      LIMIT 1
     </select>
 
     <select id="selectreceiveAddressListByUserOpenIdGroupByIsDefaultAndCreateTime" parameterType="String" resultMap="BaseResultMap">
@@ -170,6 +170,15 @@
       WHERE
         open_id = #{userOpenId}
     </update>
+
+    <select id="findByPage" resultMap="BaseResultMap">
+      SELECT
+        <include refid="Base_Column_List" />
+      FROM
+        t_receive_address
+      WHERE
+        open_id = #{userOpenId}
+    </select>
 
 
 </mapper>

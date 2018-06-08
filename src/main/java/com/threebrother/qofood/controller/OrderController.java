@@ -5,6 +5,7 @@ import com.threebrother.qofood.common.Constant;
 import com.threebrother.qofood.model.DTO.OrderDetailDTO;
 import com.threebrother.qofood.model.PO.GoodsPO;
 import com.threebrother.qofood.model.PO.UpdateOrderLogisticsPO;
+import com.threebrother.qofood.model.PageInfo;
 import com.threebrother.qofood.model.Result;
 import com.threebrother.qofood.service.OrderService;
 import com.threebrother.qofood.util.ResultUtil;
@@ -15,8 +16,6 @@ import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
 
 @Controller
 @Api(description = "订单--相关接口")
@@ -60,15 +59,18 @@ public class OrderController {
     @ApiOperation(value = "获取订单列表", notes = "根据用户OpenId、订单状态；获取用户该状态的订单列表")
     @ApiImplicitParams({
             @ApiImplicitParam(paramType = "query", dataType = "String", name = "userOpenId", value = "用户OpenId", required = true),
-            @ApiImplicitParam(paramType = "query", dataType = "String", name = "orderStatus", value = "订单状态 (1-未付款；2-已付款；3-已发货)", required = true)
+            @ApiImplicitParam(paramType = "query", dataType = "String", name = "orderStatus", value = "订单状态 (1-未付款；2-已付款；3-已发货)", required = true),
+            @ApiImplicitParam(paramType = "query", dataType = "Integer", name = "pageNum", value = "当前页数", required = true),
+            @ApiImplicitParam(paramType = "query", dataType = "Integer", name = "pageSize", value = "每页记录数", required = true)
     })
     @RequestMapping(value = "/orders", method = {RequestMethod.GET})
     @ResponseBody
-    public Result<List<OrderDetailDTO>> getOrderList(@RequestParam String userOpenId, @RequestParam int orderStatus){
+    public Result<PageInfo<OrderDetailDTO>> getOrderList(@RequestParam String userOpenId, @RequestParam int orderStatus,
+                                                     @RequestParam int pageNum, @RequestParam int pageSize){
 
-        List<OrderDetailDTO> orderDetailDTOS = orderService.getOrderDetailListByUserOpenIdAndOrderStatus(userOpenId, orderStatus);
+        PageInfo<OrderDetailDTO> orderDetailDTOPageInfo = orderService.getOrderDetailListByUserOpenIdAndOrderStatus(userOpenId, orderStatus, pageNum, pageSize);
 
-        return ResultUtil.success(orderDetailDTOS);
+        return ResultUtil.success(orderDetailDTOPageInfo);
     }
 
 

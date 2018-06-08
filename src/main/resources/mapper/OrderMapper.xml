@@ -55,9 +55,9 @@
       LIMIT 1
     </select>
 
-    <select id="selectOrderIdListByUserOpenIdAndOrderStatus"  resultType="String">
+    <select id="selectOrderListByUserOpenIdAndOrderStatus" resultMap="BaseResultMap">
       SELECT
-        order_id
+        <include refid="Base_Column_List" />
       FROM
         t_order
       WHERE

@@ -1,10 +1,9 @@
 package com.threebrother.qofood.dao;
 
+import com.github.pagehelper.Page;
 import com.threebrother.qofood.entity.Order;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
-
-import java.util.List;
 
 @Mapper
 public interface OrderMapper {
@@ -13,7 +12,7 @@ public interface OrderMapper {
 
     Order selectOrderByOrderIdAndUserOpenId(@Param("userOpenId") String userOpenId, @Param("orderId")String orderId);
 
-    List<String> selectOrderIdListByUserOpenIdAndOrderStatus(@Param("userOpenId") String userOpenId, @Param("orderStatus") Integer orderStatus);
+    Page<Order> selectOrderListByUserOpenIdAndOrderStatus(@Param("userOpenId") String userOpenId, @Param("orderStatus") Integer orderStatus);
 
     void updateOrderAmountByOrder(Order order);
 }

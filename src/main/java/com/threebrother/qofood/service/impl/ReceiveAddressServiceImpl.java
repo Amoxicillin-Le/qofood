@@ -1,5 +1,7 @@
 package com.threebrother.qofood.service.impl;
 
+import com.github.pagehelper.Page;
+import com.github.pagehelper.PageHelper;
 import com.threebrother.qofood.common.Constant;
 import com.threebrother.qofood.common.RequestConstant;
 import com.threebrother.qofood.common.exception.BusinessException;
@@ -33,8 +35,11 @@ public class ReceiveAddressServiceImpl implements ReceiveAddressService {
     }
 
     @Override
-    public List<ReceiveAddress> getUserReceiveAddressList(String userOpenId) {
-        return receivreAddressMapper.selectReceiveAddressListByUserOpenId(userOpenId);
+    public Page<ReceiveAddress> getUserReceiveAddressList(String userOpenId, int pageNum, int pageSize) {
+
+        PageHelper.startPage(pageNum, pageSize);
+        Page<ReceiveAddress> receiveAddresses = receivreAddressMapper.selectReceiveAddressListByUserOpenId(userOpenId);
+        return receiveAddresses;
     }
 
     @Override
@@ -89,6 +94,4 @@ public class ReceiveAddressServiceImpl implements ReceiveAddressService {
 
         receivreAddressMapper.updateReceiveAddressIsDefauleByUserOpenIdAndReceiveAddressId(userOpenId, receiveAddressId);
     }
-
-
 }

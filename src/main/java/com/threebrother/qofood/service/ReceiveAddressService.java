@@ -1,18 +1,18 @@
 package com.threebrother.qofood.service;
 
+import com.github.pagehelper.Page;
 import com.threebrother.qofood.entity.ReceiveAddress;
-
-import java.util.List;
 
 public interface ReceiveAddressService {
 
     void saveReceiveAddress(ReceiveAddress receiveAddress);
 
-    List<ReceiveAddress> getUserReceiveAddressList(String userOpenId);
+    Page<ReceiveAddress> getUserReceiveAddressList(String userOpenId, int pageNum, int pageSize);
 
     void updateReceiveAddress(ReceiveAddress receiveAddress);
 
     void deleteReceiveAddress(int receiveAddressId, String userOpenId);
 
     void updateReceiveAddressIsDefaule(int receiveAddressId, String userOpenId);
+
 }

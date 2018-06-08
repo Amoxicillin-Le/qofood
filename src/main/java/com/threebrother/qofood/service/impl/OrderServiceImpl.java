@@ -1,5 +1,7 @@
 package com.threebrother.qofood.service.impl;
 
+import com.github.pagehelper.Page;
+import com.github.pagehelper.PageHelper;
 import com.google.common.base.Strings;
 import com.threebrother.qofood.common.Constant;
 import com.threebrother.qofood.common.RequestConstant;
@@ -10,6 +12,7 @@ import com.threebrother.qofood.model.DTO.OrderDetailDTO;
 import com.threebrother.qofood.model.Enum.OrderStatusEnum;
 import com.threebrother.qofood.model.Enum.PreferentialStrategyTypeEnum;
 import com.threebrother.qofood.model.PO.GoodsPO;
+import com.threebrother.qofood.model.PageInfo;
 import com.threebrother.qofood.service.OrderService;
 import com.threebrother.qofood.util.OrderIdUtil;
 import org.slf4j.Logger;
@@ -188,7 +191,7 @@ public class OrderServiceImpl implements OrderService {
 
     @Override
     @Transactional(readOnly = true)
-    public List<OrderDetailDTO> getOrderDetailListByUserOpenIdAndOrderStatus(String userOpenId, int orderStatus) {
+    public PageInfo<OrderDetailDTO> getOrderDetailListByUserOpenIdAndOrderStatus(String userOpenId, int orderStatus, int pageNum, int pageSize) {
 
         if(null == OrderStatusEnum.getEnumByValue(orderStatus)){
             throw new BusinessException(
@@ -196,21 +199,22 @@ public class OrderServiceImpl implements OrderService {
                     RequestConstant.SELECT_ORDER_FAILE_ORDER_STATUS_INVALID_MSG);
         }
 
+
+        PageHelper.startPage(pageNum, pageSize);
+        Page<Order> orderPage = orderMapper.selectOrderListByUserOpenIdAndOrderStatus(userOpenId, orderStatus);
+        PageInfo<Order> orderPageInfo = new PageInfo<>(orderPage);
+
         List<OrderDetailDTO> orderDetailDTOS = new ArrayList<>();
-
-        List<String> orderIds = orderMapper.selectOrderIdListByUserOpenIdAndOrderStatus(userOpenId, orderStatus);
-
-        for (String orderId : orderIds) {
+        for (Order order : orderPage) {
             OrderDetailDTO orderDetailDTO = new OrderDetailDTO();
 
-            Order order = orderMapper.selectOrderByOrderIdAndUserOpenId(userOpenId, orderId);
             orderDetailDTO.setOrderInfo(order);
 
-            List<OrderDetail> orderDetails = orderDetailMapper.selectOrderDetailListByOrderId(orderId);
+            List<OrderDetail> orderDetails = orderDetailMapper.selectOrderDetailListByOrderId(order.getOrderId());
             orderDetailDTO.setOrderDetail(orderDetails);
 
             OrderLogistics orderLogistics = new OrderLogistics();
-            orderLogistics = orderLogisticsMapper.selectOrderLogisticsByOrderId(orderId);
+            orderLogistics = orderLogisticsMapper.selectOrderLogisticsByOrderId(order.getOrderId());
             orderDetailDTO.setOrderLogisticsInfo(orderLogistics);
 
             List<ReceiveAddress> receiveAddresses = new ArrayList<>();
@@ -220,7 +224,16 @@ public class OrderServiceImpl implements OrderService {
             orderDetailDTOS.add(orderDetailDTO);
         }
 
-        return orderDetailDTOS;
+        PageInfo<OrderDetailDTO> orderDetailDTOPageInfo = new PageInfo<>();
+        orderDetailDTOPageInfo.setIsFirstPage(orderPageInfo.isIsFirstPage());
+        orderDetailDTOPageInfo.setIsLastPage(orderPageInfo.isIsLastPage());
+        orderDetailDTOPageInfo.setList(orderDetailDTOS);
+        orderDetailDTOPageInfo.setPageNum(orderPageInfo.getPageNum());
+        orderDetailDTOPageInfo.setPageSize(orderPageInfo.getPageSize());
+        orderDetailDTOPageInfo.setTotal(orderPageInfo.getTotal());
+        orderDetailDTOPageInfo.setPages(orderPageInfo.getPages());
+
+        return orderDetailDTOPageInfo;
     }
 
     @Override

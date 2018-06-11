@@ -22,6 +22,10 @@ public class RequestConstant {
 
     public final static String SAVE_USER_FAILE_MSG = "保存用户信息失败";
 
+    public final static String SAVE_RECEIVE_ADDRESS_FAILE_CODE = "5100";
+
+    public final static String SAVE_RECEIVE_ADDRESS_FAILE_MSG = "新增收件地址失败";
+
     public final static String UPDATA_RECEIVE_ADDRESS_PARAMETER_ERROR_CODE = "5001";
 
     public final static String UPDATA_RECEIVE_ADDRESS_PARAMETER_ERROR_MSG = "Request parameter \"ID\" does not exist";
@@ -54,5 +58,12 @@ public class RequestConstant {
 
     public final static String UPDATE_ORDER_LOGISTICS_FAILE_RECEIVE_ADDRESS_ID_INVALID_MSG = "收件地址Id无效";
 
+    public final static String UPDATE_ORDER_RECEIVE_ADDRESS_FAILE_CODE = "6030";
+
+    public final static String UPDATE_ORDER_RECEIVE_ADDRESS_FAILE_MSG = "更新订单收货地址失败";
+
+    public final static String DELETE_ORDER_FAILE_CODE = "6040";
+
+    public final static String DELETE_ORDER_FAILE_MSG = "删除订单失败";
 
 }

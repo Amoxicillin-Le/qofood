@@ -56,6 +56,9 @@
         t_receive_address
       WHERE
         open_id = #{userOpenId}
+      ORDER BY
+        is_default DESC,
+        create_time DESC
     </select>
 
     <!-- 获取用户收件地址列 根据主键Id和userOpenId-->
@@ -179,6 +182,5 @@
       WHERE
         open_id = #{userOpenId}
     </select>
-
 
 </mapper>

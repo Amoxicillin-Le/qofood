@@ -21,9 +21,10 @@ public class ReceiveAddressServiceImpl implements ReceiveAddressService {
     ReceivreAddressMapper receivreAddressMapper;
 
     @Override
+    @Transactional
     public void saveReceiveAddress(ReceiveAddress receiveAddress) {
 
-        //TODO 获取该用户是否存在收件地址 目前首次录入的收件地址为默认的收件地址
+        //获取该用户是否存在收件地址 目前首次录入的收件地址为默认的收件地址
         int count = receivreAddressMapper.selectCountByUserOpenId(receiveAddress.getUserOpenId());
         if(count < Constant.INT_ONE){
             receiveAddress.setDefault(true);
@@ -35,6 +36,7 @@ public class ReceiveAddressServiceImpl implements ReceiveAddressService {
     }
 
     @Override
+    @Transactional(readOnly = true)
     public Page<ReceiveAddress> getUserReceiveAddressList(String userOpenId, int pageNum, int pageSize) {
 
         PageHelper.startPage(pageNum, pageSize);
@@ -43,6 +45,7 @@ public class ReceiveAddressServiceImpl implements ReceiveAddressService {
     }
 
     @Override
+    @Transactional
     public void updateReceiveAddress(ReceiveAddress receiveAddress) {
         ReceiveAddress oldReceiveAddress = receivreAddressMapper.selectReceiveAddressByreceiveAddressIdAndUserOpenId(receiveAddress.getReceiveAddressId(), receiveAddress.getUserOpenId());
 
@@ -57,7 +60,6 @@ public class ReceiveAddressServiceImpl implements ReceiveAddressService {
     @Transactional
     public void deleteReceiveAddress(int receiveAddressId, String userOpenId) {
 
-
         List<ReceiveAddress> receiveAddresses = receivreAddressMapper.selectReceiveAddressListByUserOpenId(userOpenId);
         if(receiveAddresses.isEmpty() || receivreAddressMapper.selectReceiveAddressListByUserOpenId(userOpenId).size() <= Constant.INT_ONE){
             throw new BusinessException(RequestConstant.DELETE_RECEIVE_ADDRESS_FAILE_CODE, RequestConstant.DELETE_RECEIVE_ADDRESS_FAILE_MSG);
@@ -71,7 +73,6 @@ public class ReceiveAddressServiceImpl implements ReceiveAddressService {
 
         receivreAddressMapper.deleteReceivreAddressByReceiveAddressIdAndUserOpenId(receiveAddressId, userOpenId);
 
-
         if (receiveAddress.getDefault()) {
             receiveAddress = receivreAddressMapper.selectReceiveAddressByUserOpenIdOrderByCreateTime(receiveAddress.getReceiveAddressId() ,userOpenId);
             System.out.println("receiveAddress is null ? ===> " + (null == receiveAddress));
@@ -81,10 +82,10 @@ public class ReceiveAddressServiceImpl implements ReceiveAddressService {
                 throw new BusinessException(RequestConstant.DELETE_RECEIVE_ADDRESS_FAILE_CODE, RequestConstant.DELETE_RECEIVE_ADDRESS_FAILE_MSG);
             }
         }
-
     }
 
     @Override
+    @Transactional
     public void updateReceiveAddressIsDefaule(int receiveAddressId, String userOpenId) {
 
         ReceiveAddress receiveAddress = receivreAddressMapper.selectReceiveAddressByreceiveAddressIdAndUserOpenId(receiveAddressId, userOpenId);

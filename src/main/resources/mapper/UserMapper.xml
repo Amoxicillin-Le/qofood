@@ -14,7 +14,6 @@
 
     <sql id="Base_Column_List">
       user_id, open_id, create_time
-
     </sql>
 
 

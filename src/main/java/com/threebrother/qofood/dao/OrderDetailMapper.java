@@ -11,4 +11,5 @@ public interface OrderDetailMapper {
     void insertBatchByOrderDetailList(List<OrderDetail> orderDetails);
 
     List<OrderDetail> selectOrderDetailListByOrderId(String orderId);
+
 }

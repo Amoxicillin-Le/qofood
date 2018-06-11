@@ -13,4 +13,6 @@ public interface OrderService {
     PageInfo<OrderDetailDTO> getOrderDetailListByUserOpenIdAndOrderStatus(String userOpenId, int orderStatus, int pageNum, int pageSize);
 
     void updateOrderLogistics(String orderId, String userOpenId, int receiveAddressId);
+
+    void deleteOrderByUserOpenIdAndOrderId(String userOpenId, String orderId);
 }

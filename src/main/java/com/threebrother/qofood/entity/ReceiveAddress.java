@@ -1,5 +1,7 @@
 package com.threebrother.qofood.entity;
 
+import org.hibernate.validator.constraints.NotBlank;
+
 import java.io.Serializable;
 import java.sql.Timestamp;
 
@@ -9,22 +11,28 @@ public class ReceiveAddress implements Serializable {
 
     private String receiveAddressContent;
 
+    @NotBlank(message = "收件地址邮编不能为空")
     private String receiveAddressZipCode;
 
+    @NotBlank(message = "收件地址联系人姓名不能为空")
     private String receiveAddressContactName;
 
+    @NotBlank(message = "收件地址联系人电话不能为空")
     private String receiveAddressContactPhone;
 
     private String userOpenId;
 
     private Boolean isDefault;
 
+    @NotBlank(message = "收件地址省信息不能为空")
     private String receiveAddressProvince;
 
+    @NotBlank(message = "收件地址市信息不能为空")
     private String receiveAddressCity;
 
     private String receiveAddressArea;
 
+    @NotBlank(message = "收件地址街道信息不能为空")
     private String receiveAddressStreet;
 
     private Timestamp createTime;

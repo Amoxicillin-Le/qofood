@@ -26,7 +26,6 @@
       order_id, create_time, is_remove, remove_time
     </sql>
 
-
     <!--批量插入-->
     <insert id="insertBatchByOrderDetailList" parameterType="java.util.List">
         INSERT INTO

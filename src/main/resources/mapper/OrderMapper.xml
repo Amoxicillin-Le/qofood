@@ -28,9 +28,6 @@
         payment_time, consign_time, create_time, update_time, delete_time
     </sql>
 
-    <!--<sql id="HomePage_Column_List">-->
-    <!--</sql>-->
-
     <insert id="insertOrder" parameterType="com.threebrother.qofood.entity.Order">
       INSERT INTO
         t_order
@@ -81,4 +78,15 @@
       WHERE
         order_id = #{orderId}
     </update>
+
+    <update id="updateOrderIsDeleteByOrderId" parameterType="String">
+      UPDATE
+        t_order
+      SET
+        is_delete = 1
+      WHERE
+        order_id = #{orderId}
+    </update>
+
+
 </mapper>

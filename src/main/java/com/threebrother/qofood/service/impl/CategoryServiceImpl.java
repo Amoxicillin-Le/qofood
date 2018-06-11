@@ -1,6 +1,5 @@
 package com.threebrother.qofood.service.impl;
 
-import com.threebrother.qofood.common.exception.BusinessException;
 import com.threebrother.qofood.dao.CategoryMapper;
 import com.threebrother.qofood.dao.GoodsMapper;
 import com.threebrother.qofood.entity.Category;
@@ -24,6 +23,7 @@ public class CategoryServiceImpl implements CategoryService {
     GoodsMapper goodsMapper;
 
     @Override
+    @Transactional(readOnly = true)
     public List<CategoryDTO> getHomePageCategoryList() {
 
         List<CategoryDTO> categoryDTOS = new ArrayList<>();

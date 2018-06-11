@@ -41,7 +41,7 @@
         ON
           cgrel.goods_id = g.goods_id
         WHERE
-          cgrel.category_id = #{categoryId};
+          cgrel.category_id = #{categoryId}
     </select>
 
 

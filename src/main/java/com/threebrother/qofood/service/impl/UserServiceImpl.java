@@ -10,6 +10,7 @@ import com.threebrother.qofood.service.UserService;
 import com.threebrother.qofood.util.WXAppletUserInfo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 public class UserServiceImpl implements UserService {
@@ -18,6 +19,7 @@ public class UserServiceImpl implements UserService {
     UserMapper userMapper;
 
     @Override
+    @Transactional(readOnly = true)
     public String getOpenUserId(String code) {
 
         String  openId;
@@ -39,7 +41,6 @@ public class UserServiceImpl implements UserService {
             throw new BusinessException(RequestConstant.REQUEST_WX_FAILE_CODE, RequestConstant.REQUEST_WX_FAILE_MSG);
         }
 
-
         // 判断是否是以经存在的用户
         if (userMapper.isExistByOpenId(openId) < Constant.INT_ONE) {
             int count = userMapper.insetUserByOpenId(openId);
@@ -47,7 +48,6 @@ public class UserServiceImpl implements UserService {
                 throw new BusinessException(RequestConstant.SAVE_USER_FAILE_CODE, RequestConstant.SAVE_USER_FAILE_MSG);
             }
         }
-
 
         return openId;
     }

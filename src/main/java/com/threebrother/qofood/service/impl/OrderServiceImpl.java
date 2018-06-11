@@ -199,7 +199,6 @@ public class OrderServiceImpl implements OrderService {
                     RequestConstant.SELECT_ORDER_FAILE_ORDER_STATUS_INVALID_MSG);
         }
 
-
         PageHelper.startPage(pageNum, pageSize);
         Page<Order> orderPage = orderMapper.selectOrderListByUserOpenIdAndOrderStatus(userOpenId, orderStatus);
         PageInfo<Order> orderPageInfo = new PageInfo<>(orderPage);
@@ -311,5 +310,23 @@ public class OrderServiceImpl implements OrderService {
         }else {
             orderLogisticsMapper.updateOrderLogistics(orderLogistics);
         }
+    }
+
+    @Override
+    @Transactional
+    public void deleteOrderByUserOpenIdAndOrderId(String userOpenId, String orderId) {
+
+        // 获取该订单
+        Order order = orderMapper.selectOrderByOrderIdAndUserOpenId(userOpenId, orderId);
+        if (null == order || order.getOrderStatus() != Constant.INT_ONE) {
+            throw new BusinessException(RequestConstant.DELETE_ORDER_FAILE_CODE, RequestConstant.DELETE_ORDER_FAILE_MSG);
+        }
+
+        // 删除订单详情
+        // 删除订单物流
+        // 删除订单
+        // 或者
+        // 订单设置为已删除即可
+        orderMapper.updateOrderIsDeleteByOrderId(orderId);
     }
 }

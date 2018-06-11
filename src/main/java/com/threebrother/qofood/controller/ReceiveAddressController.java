@@ -16,7 +16,10 @@ import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+
+import javax.validation.Valid;
 
 @Api(description = "收件地址--相关接口")
 @Controller
@@ -26,17 +29,24 @@ public class ReceiveAddressController {
     ReceiveAddressService receiveAddressService;
 
 
-    @ApiOperation(value = "创建收件地址", notes = "创建收件地址")
+    @ApiOperation(value = "新增收件地址", notes = "新增收件地址")
     @ApiImplicitParams({
             @ApiImplicitParam(paramType = "body", dataType = "ReceiveAddress", name = "receiveAddress", value = "收件地址", required = true)
     })
     @RequestMapping(value = "/receiveAddress/save", method = {RequestMethod.POST})
     @ResponseBody
-    public Result saveReceiveAddress(@RequestBody ReceiveAddress receiveAddress) {
+    public Result saveReceiveAddress(@Valid @RequestBody ReceiveAddress receiveAddress, BindingResult bindingResult) {
 
-        //TODO 这里需要校验参数合法性 暂时未实现
+        // 参数校验
+        if (bindingResult.hasErrors()) {
+            throw new BusinessException(RequestConstant.SAVE_RECEIVE_ADDRESS_FAILE_CODE,
+                    RequestConstant.SAVE_RECEIVE_ADDRESS_FAILE_MSG + bindingResult.getFieldError().getDefaultMessage());
+        }
+
+        //业务校验
         receiveAddressService.saveReceiveAddress(receiveAddress);
 
+        // 返回
         return ResultUtil.success();
     }
 
@@ -64,14 +74,23 @@ public class ReceiveAddressController {
     })
     @RequestMapping(value = "/receiveAddress/update", method = {RequestMethod.POST})
     @ResponseBody
-    public Result updateReceiveAddress(@RequestBody ReceiveAddress receiveAddress){
+    public Result updateReceiveAddress(@Valid @RequestBody ReceiveAddress receiveAddress, BindingResult bindingResult){
 
-        if (Strings.isNullOrEmpty(receiveAddress.getUserOpenId()) || null == receiveAddress.getReceiveAddressId()) {
+        // 参数校验
+            if (Strings.isNullOrEmpty(receiveAddress.getUserOpenId()) || null == receiveAddress.getReceiveAddressId()) {
             throw new BusinessException(RequestConstant.UPDATA_RECEIVE_ADDRESS_PARAMETER_ERROR_CODE, RequestConstant.UPDATA_RECEIVE_ADDRESS_PARAMETER_ERROR_MSG);
         }
 
+        if (bindingResult.hasErrors()) {
+            throw new BusinessException(RequestConstant.UPDATA_RECEIVE_ADDRESS_FAILE_CODE,
+                    RequestConstant.UPDATA_RECEIVE_ADDRESS_FAILE_MSG + bindingResult.getFieldError().getDefaultMessage());
+        }
+
+        // 业务处理
         receiveAddressService.updateReceiveAddress(receiveAddress);
 
+
+        // 返回
         return ResultUtil.success();
     }
 
@@ -98,9 +117,13 @@ public class ReceiveAddressController {
     })
     @RequestMapping(value = "/receiveAddress/updateIsDefault", method = {RequestMethod.POST})
     @ResponseBody
-    public Result updateReceiveAddressIsDefaule(@RequestBody UpdateOrderLogisticsPO updateOrderLogisticsPO){
+    public Result updateReceiveAddressIsDefaule(@Valid @RequestBody UpdateOrderLogisticsPO updateOrderLogisticsPO, BindingResult bindingResult){
 
-        //TODO 此处应该校验参数是否为空
+        if (bindingResult.hasErrors()) {
+            throw new BusinessException(RequestConstant.UPDATA_RECEIVE_ADDRESS_FAILE_CODE,
+                    RequestConstant.UPDATA_RECEIVE_ADDRESS_FAILE_MSG + bindingResult.getFieldError().getDefaultMessage());
+        }
+
         receiveAddressService.updateReceiveAddressIsDefaule(updateOrderLogisticsPO.getReceiveAddressId(),
                 updateOrderLogisticsPO.getUserOpenId());
 

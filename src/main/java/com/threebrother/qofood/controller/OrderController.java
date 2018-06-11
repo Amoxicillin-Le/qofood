@@ -1,7 +1,10 @@
 package com.threebrother.qofood.controller;
 
 import com.alibaba.fastjson.JSONObject;
+import com.google.common.base.Strings;
 import com.threebrother.qofood.common.Constant;
+import com.threebrother.qofood.common.RequestConstant;
+import com.threebrother.qofood.common.exception.BusinessException;
 import com.threebrother.qofood.model.DTO.OrderDetailDTO;
 import com.threebrother.qofood.model.PO.GoodsPO;
 import com.threebrother.qofood.model.PO.UpdateOrderLogisticsPO;
@@ -15,7 +18,10 @@ import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+
+import javax.validation.Valid;
 
 @Controller
 @Api(description = "订单--相关接口")
@@ -80,13 +86,39 @@ public class OrderController {
             @ApiImplicitParam(paramType = "query", dataType = "String", name = "userOpenId", value = "用户OpenId", required = true),
             @ApiImplicitParam(paramType = "query", dataType = "String", name = "receiveAddressId", value = "收件地址Id", required = true)
     })
-    @RequestMapping(value = "/oeder/updateLogistics", method = {RequestMethod.POST})
+    @RequestMapping(value = "/order/updateLogistics", method = {RequestMethod.POST})
     @ResponseBody
-    public Result updateOrderLogistics(@RequestBody UpdateOrderLogisticsPO updateOrderLogisticsPO){
+    public Result updateOrderLogistics(@Valid @RequestBody UpdateOrderLogisticsPO updateOrderLogisticsPO, BindingResult bindingResult){
 
-        //TODO 此处应该校验参数是否为空
+        // 参数校验
+        if(Strings.isNullOrEmpty(updateOrderLogisticsPO.getOrderId())){
+            throw new BusinessException(RequestConstant.UPDATE_ORDER_RECEIVE_ADDRESS_FAILE_CODE,
+                    RequestConstant.UPDATE_ORDER_RECEIVE_ADDRESS_FAILE_MSG);
+        }
+
+        if (bindingResult.hasErrors()) {
+            throw new BusinessException(RequestConstant.UPDATA_RECEIVE_ADDRESS_FAILE_CODE,
+                    RequestConstant.UPDATE_ORDER_RECEIVE_ADDRESS_FAILE_MSG + bindingResult.getFieldError().getDefaultMessage());
+        }
+
+
         orderService.updateOrderLogistics(updateOrderLogisticsPO.getOrderId(),
                 updateOrderLogisticsPO.getUserOpenId(), updateOrderLogisticsPO.getReceiveAddressId());
+
+        return ResultUtil.success();
+    }
+
+
+    @ApiOperation(value = "删除未付款订单", notes = "根据用户OpenId，收件地址Id，删除该未付款订单")
+    @ApiImplicitParams({
+            @ApiImplicitParam(paramType = "query", dataType = "String", name = "userOpenId", value = "用户OpenId", required = true),
+            @ApiImplicitParam(paramType = "query", dataType = "String", name = "orderId", value = "订单Id", required = true),
+    })
+    @RequestMapping(value = "/order/delete", method = {RequestMethod.GET})
+    @ResponseBody
+    public Result deleteUnpaidOrderByUserOpenIdAndOrderId(@RequestParam String userOpenId, @RequestParam String orderId){
+
+        orderService.deleteOrderByUserOpenIdAndOrderId(userOpenId, orderId);
 
         return ResultUtil.success();
     }

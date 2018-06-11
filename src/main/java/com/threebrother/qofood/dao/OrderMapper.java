@@ -15,4 +15,6 @@ public interface OrderMapper {
     Page<Order> selectOrderListByUserOpenIdAndOrderStatus(@Param("userOpenId") String userOpenId, @Param("orderStatus") Integer orderStatus);
 
     void updateOrderAmountByOrder(Order order);
+
+    void updateOrderIsDeleteByOrderId(String orderId);
 }

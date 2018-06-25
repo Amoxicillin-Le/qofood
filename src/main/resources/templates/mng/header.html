@@ -10,7 +10,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
     <meta content="Coderthemes" name="author"/>
     <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
-    <link rel="shortcut icon" th:href="@{/admin/images/favicon.png}"/>
+    <link rel="shortcut icon" th:href="@{/mng/images/favicon.png}"/>
     <link th:href="@{//cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css}" rel="stylesheet" type="text/css"/>
     <link th:href="@{//cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.min.css}" rel="stylesheet"/>
     <link th:href="@{/mng/css/style.min.css}" rel="stylesheet" type="text/css"/>
@@ -51,8 +51,8 @@
                     <li class="dropdown">
                         <a th:href="@{index.html}" class="dropdown-toggle profile" data-toggle="dropdown"
                            aria-expanded="true">
-                            <!--<img th:src="${commons.gravatar(session.login_user.email)}" alt="user-img" class="img-circle"/> </a>-->
-                            <img alt="user-img" class="img-circle"/> </a>
+                            <img th:src="${commons.gravatar(session.login_user.mngUserEmail)}" alt="user-img" class="img-circle"/>
+                        </a>
 
                         <ul class="dropdown-menu">
                             <!--<li><a th:href="@{${commons.site_url()}}" target="_blank"><i class="fa fa-eye" aria-hidden="true"></i>查看网站</a></li>-->

@@ -6,6 +6,7 @@ import com.alibaba.fastjson.support.config.FastJsonConfig;
 import com.alibaba.fastjson.support.spring.FastJsonHttpMessageConverter;
 import com.threebrother.qofood.common.RequestConstant;
 import com.threebrother.qofood.common.exception.BusinessException;
+import com.threebrother.qofood.interceptor.MngInterceptor;
 import com.threebrother.qofood.model.Result;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.MediaType;
@@ -14,8 +15,10 @@ import org.springframework.web.method.HandlerMethod;
 import org.springframework.web.servlet.HandlerExceptionResolver;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.NoHandlerFoundException;
+import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
 
+import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
@@ -25,6 +28,14 @@ import java.util.List;
 @Configuration
 public class WebMvcConfig extends WebMvcConfigurerAdapter {
 
+    @Resource
+    private MngInterceptor mngInterceptor;
+
+    @Override
+    public void addInterceptors(InterceptorRegistry registry) {
+        registry.addInterceptor(mngInterceptor);
+        super.addInterceptors(registry);
+    }
 
     //重写configureMessageConverters 消息转换器 更换为阿里的FastJosn
     @Override

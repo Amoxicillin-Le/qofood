@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+<mapper namespace="com.threebrother.qofood.dao.MngUserMapper" >
+
+    <resultMap id="BaseResultMap" type="com.threebrother.qofood.entity.MngUser" >
+        <id column="mng_user_id"            property="mngUserId"        jdbcType="INTEGER"   javaType="Integer"/>
+        <result column="mng_user_name"      property="mngUserName"      jdbcType="VARCHAR"   javaType="String" />
+        <result column="mng_user_passwrod"  property="mngUserPassword"  jdbcType="VARCHAR"   javaType="String"/>
+        <result column="mng_user_email"     property="mngUserEmail"     jdbcType="VARCHAR"   javaType="String" />
+        <result column="mng_user_screen_name"   property="mngUserScreenName" jdbcType="VARCHAR" javaType="String" />
+        <result column="mng_user_create_time"   property="createTime"   jdbcType="TIMESTAMP" javaType="java.sql.Timestamp"  />
+        <result column="mng_user_activate_time" property="activateTime" jdbcType="TIMESTAMP" javaType="java.sql.Timestamp"  />
+        <result column="mng_user_login_time"    property="loginTime"    jdbcType="TIMESTAMP" javaType="java.sql.Timestamp"  />
+    </resultMap>
+
+    <sql id="Base_Column_List">
+      mng_user_id, mng_user_name, mng_user_passwrod, mng_user_email, mng_user_screen_name,
+      mng_user_create_time, mng_user_activate_time, mng_user_login_time
+    </sql>
+
+    <select id="selectMngUserByMngUserId" resultMap="BaseResultMap" parameterType="Integer" >
+        SELECT
+          <include refid="Base_Column_List" />
+        FROM
+          t_mng_user
+        WHERE
+          mng_user_id = #{mngUserId}
+        LIMIT 1
+    </select>
+
+
+    <select id="selectCountByMngUserName" resultType="int" parameterType="String">
+      SELECT
+        COUNT(*)
+      FROM
+        t_mng_user
+      WHERE
+        mng_user_name = #{mngUserName}
+    </select>
+
+
+    <select id="login" resultMap="BaseResultMap" >
+      SELECT
+        <include refid="Base_Column_List" />
+      FROM
+        t_mng_user
+      WHERE
+        mng_user_name = #{mngUserName}
+      AND
+        mng_user_passwrod = #{mngUserPassword}
+      LIMIT 1
+    </select>
+
+</mapper>

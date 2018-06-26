@@ -23,7 +23,9 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Configuration
 public class WebMvcConfig extends WebMvcConfigurerAdapter {
@@ -40,6 +42,7 @@ public class WebMvcConfig extends WebMvcConfigurerAdapter {
     //重写configureMessageConverters 消息转换器 更换为阿里的FastJosn
     @Override
     public void configureMessageConverters(List<HttpMessageConverter<?>> converters) {
+
         FastJsonHttpMessageConverter fastJsonHttpMessageConverter = new FastJsonHttpMessageConverter();
         FastJsonConfig fastJsonConfig = new FastJsonConfig();
 
@@ -58,6 +61,11 @@ public class WebMvcConfig extends WebMvcConfigurerAdapter {
     }
 
 
+    /**
+     * 用于传递到页面的值
+     */
+    protected Map<String, Object> data = new HashMap<String, Object>();
+
     // 统一异常处理
     public void configureHandlerExceptionResolvers(List<HandlerExceptionResolver> exceptionResolvers) {
         exceptionResolvers.add(new HandlerExceptionResolver() {
@@ -72,7 +80,22 @@ public class WebMvcConfig extends WebMvcConfigurerAdapter {
 
                     HandlerMethod handlerMethod = (HandlerMethod) o;
 
-                    if (e instanceof BusinessException) {//业务失败的异常
+                    // 自定义的业务异常
+                    if (e instanceof BusinessException) {
+                        String requestType = httpServletRequest.getHeader("X-Requested-With");
+                        if("XMLHttpRequest".equals(requestType)){
+                            System.out.println("AJAX请求..");
+                        }else{
+                            System.out.println("非AJAX请求..");
+                            String uri = httpServletRequest.getRequestURI();
+                            System.out.println("请求路径：" + uri);
+
+                            if (uri.startsWith("/mng")){
+                                ModelAndView modelAndView = new ModelAndView("comm/error_500");
+                                return modelAndView;
+                            }
+                        }
+
                         result.setCode(((BusinessException) e).getCode());
                         result.setMsg(e.getMessage());
                     }else{

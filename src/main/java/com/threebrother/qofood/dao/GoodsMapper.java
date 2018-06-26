@@ -1,7 +1,9 @@
 package com.threebrother.qofood.dao;
 
+import com.github.pagehelper.Page;
 import com.threebrother.qofood.entity.Goods;
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 
@@ -22,4 +24,6 @@ public interface GoodsMapper {
      * @date 2018/5/31 16:21
      */
     Goods selectByGoodsId(Integer goodsId);
+
+    Page<Goods> selectGoodsList(@Param("goodsName") String goodsName, @Param("orderByStr") String orderByStr);
 }

@@ -26,8 +26,6 @@ public class Goods implements Serializable {
 
     private Integer goodsCount;
 
-//    private Integer goodsSalesVolume;
-
     private Timestamp createTime;
 
     private Timestamp updateTime;
@@ -114,14 +112,6 @@ public class Goods implements Serializable {
     public void setGoodsCount(Integer goodsCount) {
         this.goodsCount = goodsCount;
     }
-
-//    public Integer getGoodsSalesVolume() {
-//        return goodsSalesVolume;
-//    }
-
-//    public void setGoodsSalesVolume(Integer goodsSalesVolume) {
-//        this.goodsSalesVolume = goodsSalesVolume;
-//    }
 
     public Timestamp getCreateTime() {
         return createTime;

@@ -56,4 +56,26 @@
         LIMIT 1
     </select>
 
+
+    <select id="selectGoodsList" resultMap="BaseResultMap">
+        SELECT
+          <include refid="Base_Column_List" />
+        FROM
+          t_goods
+        WHERE
+          1 = 1
+          <if test="goodsName != null and goodsName != ''">
+            AND goods_name LIKE CONCAT(CONCAT('%', #{goodsName}, '%'))
+          </if>
+        ORDER BY
+          <choose>
+              <when test="orderByStr != null and orderByStr != ''">
+                  ${orderByStr}
+              </when>
+              <otherwise>
+                  create_time DESC
+              </otherwise>
+          </choose>
+    </select>
+
 </mapper>

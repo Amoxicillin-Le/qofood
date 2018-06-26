@@ -77,7 +77,7 @@ public class ReceiveAddressController {
     public Result updateReceiveAddress(@Valid @RequestBody ReceiveAddress receiveAddress, BindingResult bindingResult){
 
         // 参数校验
-            if (Strings.isNullOrEmpty(receiveAddress.getUserOpenId()) || null == receiveAddress.getReceiveAddressId()) {
+        if (Strings.isNullOrEmpty(receiveAddress.getUserOpenId()) || null == receiveAddress.getReceiveAddressId()) {
             throw new BusinessException(RequestConstant.UPDATA_RECEIVE_ADDRESS_PARAMETER_ERROR_CODE, RequestConstant.UPDATA_RECEIVE_ADDRESS_PARAMETER_ERROR_MSG);
         }
 

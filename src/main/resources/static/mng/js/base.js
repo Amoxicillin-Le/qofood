@@ -6,6 +6,11 @@ $.extend({
     }
 });
 
+
+
+
+
+
 /**
  * tale alert删除  // todo: 减少耦合度,链式操作替代  2017-02-27
  * @param options
@@ -133,8 +138,9 @@ $.tale.prototype.post = function (options) {
         data: options.data || {},
         async: options.async || false,
         dataType: 'json',
+        beforeSend:function(XMLHttpRequest){
+        },
         success: function (result) {
-            self.hideLoading();
             options.success && options.success(result);
         },
         error: function () {

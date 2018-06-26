@@ -1,0 +1,366 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" th:with="title='商品管理', active='goods'">
+<header th:replace="mng/header::headerFragment(${title},${active})"></header>
+
+<!--<style type="text/css">-->
+
+    <!--.table th, .table td {-->
+        <!--text-align: center;-->
+        <!--vertical-align: middle!important;-->
+    <!--}-->
+
+<!--</style>-->
+
+
+
+<body class="fixed-left">
+
+<div id="wrapper">
+
+    <div th:replace="mng/header::header-body"></div>
+
+    <div class="content-page">
+        <div class="content">
+            <div class="container">
+                <div class="row">
+
+                    <!--<div class="col-sm-12">-->
+                    <!--<h4 class="page-title">商品列表</h4>-->
+                    <!--</div>-->
+
+                    <!--查询框-->
+                    <div class="row-fluid">
+                        <div class="span12">
+                            <div class="control-group form-inline" style="border: 1px solid #ccc;padding: 10px; border-radius: 3px;">
+
+                                <div class="input-group input-group">
+                                    <label for="goodsName">商品名称</label>&nbsp;
+                                    <input id="goodsName" type="text"/>&nbsp;
+                                </div>
+
+
+                                <button id="btn_search" type="button" class="btn btn-primary btn-sm">
+                                    <span class="glyphicon glyphicon-search" aria-hidden="true"></span>查询
+                                </button>
+                                &nbsp;
+
+                                <button id="btn_clean_search" type="button" class="btn btn-danger btn-sm">清空条件</button>
+
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 工具栏 -->
+                    <div id="toolbar" class="btn-group">
+
+                        <button id="btn_add" type="button" class="btn btn-default btn-sm">
+                            <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>新增
+                        </button>
+
+                        <!--<button id="btn_delete" type="button" class="btn btn-default btn-sm">-->
+                            <!--<span class="glyphicon glyphicon-trash" aria-hidden="true"></span>删除-->
+                        <!--</button>-->
+
+                        <!--<button id="btn_refresh" type="button" class="btn btn-default btn-sm">-->
+                            <!--<span class="glyphicon glyphicon-refresh" aria-hidden="true"></span>刷新-->
+                        <!--</button>-->
+
+                        <!--<button id="btn_clean" type="button" class="btn btn-default btn-sm">清空</button>-->
+
+                        <!--<button id="btn_init" type="button" class="btn btn-default btn-sm">初始化</button>-->
+
+                        <!--<button id="btn_toggleview" type="button" class="btn btn-default btn-sm">切换视图</button>-->
+
+                        <!--<button id="btn_togglepage" type="button" class="btn btn-default btn-sm">显隐分页</button>-->
+
+                        <!--<button id="btn_selectpage" type="button" class="btn btn-default btn-sm">跳转</button>-->
+                    </div>
+
+                    <!-- 表格 -->
+                    <table id="goodsTable" class="table table-hover"></table>
+
+                    </div>
+                </div>
+                <div th:replace="mng/footer :: footer-content"></div>
+            </div>
+        </div>
+    </div>
+
+
+<div th:replace="mng/footer :: footer"></div>
+
+<script type="text/javascript">
+
+
+    var $table = $('#goodsTable');
+
+    //bootstrapTable使用中文
+    $.extend($.fn.bootstrapTable.defaults, $.fn.bootstrapTable.locales['zh-CN']);
+
+    //防止表头与表格不对齐
+    $(window).resize(function () {
+        $table.bootstrapTable('resetView');
+    });
+
+    $(function () {
+        //使用严格模式
+        "use strict";
+
+        tableInit();
+        $('#users').bootstrapTable('hideLoading');
+    })
+
+    //初始化Table
+    function tableInit() {
+        //先销毁表格
+        $table.bootstrapTable('destroy');
+
+        $table.bootstrapTable({
+            url: '../mng/goods/pageList',   // 请求地址
+            method: 'post',                 // 请求方式
+            contentType: "application/x-www-form-urlencoded",  //请求内容类型
+            dataType: "json",               //数据类型
+            // height: '600',                //table高度，如果没有设置height属性，表格自动根据记录条数觉得表格高度
+            striped: true,                  //是否显示行间隔色
+            // sortable: true,                 //是否启用排序
+            // sortOrder: "asc",             //排序方式
+            cache: false,                   //是否使用缓存
+            uniqueId: "goodsId",            //每行的唯一标识
+            toolbar: "#toolbar",            //指定工具栏
+            showColumns: true,              //显示隐藏列
+            showRefresh: true,              //显示刷新按钮
+            showToggle: false,              //切换显示样式
+            showFooter: false,              //显示Table脚部
+            cardView: false,                //是否显示详细视图
+            detailView: false,              //是否显示父子表
+            pagination: true,               //是否显示分页
+            showPaginationSwitch: true,     //是否显示分页按钮
+            clickToSelect: false,           //是否启用点击选中行
+            minimumCountColumns: 2,         //最少要显示的列数
+            undefinedText: '-',             //cell没有值时显示
+            detailView: true,               //是否显示父子表
+            //detail格式化
+            detailFormatter: genderDetail,
+            sidePagination: "server",       //分页方式：client客户端分页，server服务端分页
+            pageSize: 10,                   //每页的记录行数
+            pageNumber: 1,                  //初始化加载第1页，默认第1页
+            pageList: "[10, 30, 60, 100]",  //可供选择的每页的行数（*）
+            paginationFirstText: "首页",
+            paginationPreText: "上一页",
+            paginationNextText: "下一页",
+            paginationLastText: "末页",
+            buttonsClass: 'default',
+            iconsPrefix: 'glyphicon',
+            queryParams: queryParams,       //得到查询的参数
+            icons: {                        //自定义图标
+                paginationSwitchDown: 'glyphicon-collapse-down icon-chevron-down',
+                paginationSwitchUp: 'glyphicon-collapse-up icon-chevron-up',
+                refresh: 'glyphicon-refresh icon-refresh',
+                toggle: 'glyphicon-list-alt icon-list-alt',
+                columns: 'glyphicon-th icon-th',
+                detailOpen: 'glyphicon-plus icon-plus',
+                detailClose: 'glyphicon-minus icon-minus'
+            }
+            , columns: [{
+                field: 'state',
+                checkbox: true,
+                align: 'center',
+                valign: 'middle'
+            },{
+                title: '序号',
+                field: 'index',
+                align: 'center',
+                valign: 'middle',
+                formatter: genderIndex
+            },{
+                title: '商品名称',
+                field: 'goodsName',
+                align: 'center',
+                valign: 'middle'
+            },{
+                title: '商品描述',
+                field: 'goodsDesc',
+                align: 'center',
+                valign: 'middle'
+            },{
+                title: '商品单价',
+                field: 'goodsPrice',
+                align: 'center',
+                valign: 'middle',
+                formatter : goodsPriceFormat,
+                sortable: true
+            },{
+                title: '商品总销量',
+                field: 'goodsSalesVolume',
+                align: 'center',
+                valign: 'middle',
+                sortable: true
+            },{
+                title: '创建时间',
+                field: 'createTime',
+                align: 'center',
+                valign: 'middle',
+                sortable: true
+            },{
+                title: '最后更新时间',
+                field: 'updateTime',
+                align: 'center',
+                valign: 'middle'
+            },
+            //     {
+            //     title: '状态',
+            //     field: 'delete',
+            //     align: 'center',
+            //     valign: 'middle',
+            //     formatter: genderDel
+            // },
+                {
+                title: '操作',
+                field: 'operate',
+                align: 'center',
+                events: operateEvents,
+                formatter: genderOpt
+            }],
+            responseHandler: function (res) {
+                if (res.total > 0) {
+                    var obj = {
+                        "total": res.total,
+                        "rows": res.list,
+                    };
+                } else {
+                    var obj = {
+                        "total": 0,
+                        "rows": [],
+                    }
+                }
+                return obj;
+            }, onLoadSuccess: function () {
+                //加载成功时执行
+                console.log("加载成功!");
+            }, onLoadError: function () {
+                //加载失败时执行
+                layer.msg("加载失败!", {icon: 2, time: 2000});
+            }, formatLoadingMessage: function () {
+                //正在加载
+                return "请稍等，正在加载中...";
+            }, formatNoMatches: function () {
+                //没有匹配的结果
+                return '无符合条件的记录';
+            }
+        })
+    }
+
+
+
+    //生成详细视图
+    function genderDetail(index, row) {
+        var html = [];
+
+        html.push("<img src=" + row.goodsSmallImageUrl + " alt=" + '商品列表图' + " height=" + '200' + " width=" + '200' + "/>");
+        html.push("<img src=" + row.goodsBig1ImageUrl + " alt=" + '商品详情图1' + " height=" + '200' + " width=" + '200' + "/>");
+        html.push("<img src=" + row.goodsBig2ImageUrl + " alt=" + '商品详情图2' + " height=" + '200' + " width=" + '200' + "/>");
+        html.push("<img src=" + row.goodsBig3ImageUrl + " alt=" + '商品详情图3' + " height=" + '200' + " width=" + '200' + "/>");
+
+        return html.join('');
+    }
+
+    //生成序号
+    function genderIndex(value, row, index) {
+        return index + 1;
+    }
+
+    //自定义列内容
+    function genderOpt() {
+        return [
+            '<a id="edit" href="javascript:void(0)" title="编辑">',
+            '<i class="glyphicon glyphicon-pencil"></i>',
+            '</a>  ',
+            '<a id="remove" href="javascript:void(0)" title="删除">',
+            '<i class="glyphicon glyphicon-trash"></i>',
+            '</a>'
+        ].join('');
+    }
+
+    //自定义列内容事件
+    window.operateEvents = {
+        'click #edit': function (e, value, row, index) {
+            editData(row);
+        },
+        'click #remove': function (e, value, row, index) {
+            delData(row.id, "one");
+        }
+    };
+
+    //查询条件与分页数据
+    function queryParams(params) {
+
+        //第几页
+        params.pageNumber = this.pageNumber;
+
+        //每页记录数
+        params.pageSize = this.pageSize;
+
+        //name
+        params.goodsName = $("#goodsName").val();
+
+        return params;
+    }
+
+
+    //清空条件按钮点击事件
+    $("#btn_clean_search").on("click", function () {
+        $('#goodsName').val("");
+        refresh();
+    });
+
+    //查询按钮点击事件
+    $("#btn_search").on("click", function () {
+        refresh();
+    });
+
+    //刷新页面
+    function refresh() {
+        $table.bootstrapTable('refresh');
+    }
+
+    //商品单价格式化
+    function goodsPriceFormat(value, row, index) {
+        if (value == null || value == undefined) {
+            return "-";
+        } else {
+            return value + "￥";
+        }
+    }
+
+
+
+
+
+
+
+
+    /*<![CDATA[*/
+    var tale = new $.tale();
+    function delPost(goodsId) {
+        tale.alertConfirm({
+            title:'确定删除该文章吗?',
+            then: function () {
+                tale.post({
+                    url : '/mng/article/delete',
+                    data: {goodsId: goodsId},
+                    success: function (result) {
+                        if(result && result.success){
+                            tale.alertOkAndReload('文章删除成功');
+                        } else {
+                            tale.alertError(result.msg || '文章删除失败');
+                        }
+                    }
+                });
+            }
+        });
+    }
+    /*]]>*/
+</script>
+
+</body>
+</html>

@@ -2,21 +2,32 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org" th:with="title='商品管理', active='goods'">
 <header th:replace="mng/header::headerFragment(${title},${active})"></header>
 
-<!--<style type="text/css">-->
+<style type="text/css">
+    table{
+        width:100px;
+        table-layout:fixed;/* 只有定义了表格的布局算法为fixed，下面td的定义才能起作用。 */
+    }
+    td{
+        width:100%;
+        word-break:keep-all;/* 不换行 */
+        white-space:nowrap;/* 不换行 */
+        overflow:hidden;/* 内容超出宽度时隐藏超出部分的内容 */
+        text-overflow:ellipsis;/* 当对象内文本溢出时显示省略标记(...) ；需与overflow:hidden;一起使用*/
+        -o-text-overflow:ellipsis;
+        -icab-text-overflow: ellipsis;
+        -khtml-text-overflow: ellipsis;
+        -moz-text-overflow: ellipsis;
+        -webkit-text-overflow: ellipsis;
+    }
 
-    <!--.table th, .table td {-->
-        <!--text-align: center;-->
-        <!--vertical-align: middle!important;-->
-    <!--}-->
-
-<!--</style>-->
-
+</style>
 
 
 <body class="fixed-left">
 
 <div id="wrapper">
 
+    <!-- 页面头部区域-->
     <div th:replace="mng/header::header-body"></div>
 
     <div class="content-page">
@@ -24,25 +35,21 @@
             <div class="container">
                 <div class="row">
 
-                    <!--<div class="col-sm-12">-->
-                    <!--<h4 class="page-title">商品列表</h4>-->
-                    <!--</div>-->
+                    <div class="row-fluid">
+                        <h4 class="page-title">商品列表</h4>
+                    </div>
 
                     <!--查询框-->
                     <div class="row-fluid">
                         <div class="span12">
                             <div class="control-group form-inline" style="border: 1px solid #ccc;padding: 10px; border-radius: 3px;">
-
                                 <div class="input-group input-group">
                                     <label for="goodsName">商品名称</label>&nbsp;
                                     <input id="goodsName" type="text"/>&nbsp;
                                 </div>
-
-
                                 <button id="btn_search" type="button" class="btn btn-primary btn-sm">
                                     <span class="glyphicon glyphicon-search" aria-hidden="true"></span>查询
-                                </button>
-                                &nbsp;
+                                </button>&nbsp;
 
                                 <button id="btn_clean_search" type="button" class="btn btn-danger btn-sm">清空条件</button>
 
@@ -52,45 +59,25 @@
 
                     <!-- 工具栏 -->
                     <div id="toolbar" class="btn-group">
-
                         <button id="btn_add" type="button" class="btn btn-default btn-sm">
                             <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>新增
                         </button>
-
-                        <!--<button id="btn_delete" type="button" class="btn btn-default btn-sm">-->
-                            <!--<span class="glyphicon glyphicon-trash" aria-hidden="true"></span>删除-->
-                        <!--</button>-->
-
-                        <!--<button id="btn_refresh" type="button" class="btn btn-default btn-sm">-->
-                            <!--<span class="glyphicon glyphicon-refresh" aria-hidden="true"></span>刷新-->
-                        <!--</button>-->
-
-                        <!--<button id="btn_clean" type="button" class="btn btn-default btn-sm">清空</button>-->
-
-                        <!--<button id="btn_init" type="button" class="btn btn-default btn-sm">初始化</button>-->
-
-                        <!--<button id="btn_toggleview" type="button" class="btn btn-default btn-sm">切换视图</button>-->
-
-                        <!--<button id="btn_togglepage" type="button" class="btn btn-default btn-sm">显隐分页</button>-->
-
-                        <!--<button id="btn_selectpage" type="button" class="btn btn-default btn-sm">跳转</button>-->
                     </div>
 
                     <!-- 表格 -->
-                    <table id="goodsTable" class="table table-hover"></table>
+                    <table id="goodsTable" class="table table-hover" ></table>
 
                     </div>
                 </div>
+                <!--页面底部 文件内容 区域-->
                 <div th:replace="mng/footer :: footer-content"></div>
             </div>
         </div>
     </div>
-
-
+<!--页面底部区域-->
 <div th:replace="mng/footer :: footer"></div>
 
 <script type="text/javascript">
-
 
     var $table = $('#goodsTable');
 
@@ -120,10 +107,10 @@
             method: 'post',                 // 请求方式
             contentType: "application/x-www-form-urlencoded",  //请求内容类型
             dataType: "json",               //数据类型
-            // height: '600',                //table高度，如果没有设置height属性，表格自动根据记录条数觉得表格高度
+            // height: '600',               //table高度，如果没有设置height属性，表格自动根据记录条数觉得表格高度
             striped: true,                  //是否显示行间隔色
-            // sortable: true,                 //是否启用排序
-            // sortOrder: "asc",             //排序方式
+            // sortable: true,              //是否启用排序
+            // sortOrder: "asc",            //排序方式
             cache: false,                   //是否使用缓存
             uniqueId: "goodsId",            //每行的唯一标识
             toolbar: "#toolbar",            //指定工具栏
@@ -132,7 +119,6 @@
             showToggle: false,              //切换显示样式
             showFooter: false,              //显示Table脚部
             cardView: false,                //是否显示详细视图
-            detailView: false,              //是否显示父子表
             pagination: true,               //是否显示分页
             showPaginationSwitch: true,     //是否显示分页按钮
             clickToSelect: false,           //是否启用点击选中行
@@ -140,7 +126,7 @@
             undefinedText: '-',             //cell没有值时显示
             detailView: true,               //是否显示父子表
             //detail格式化
-            detailFormatter: genderDetail,
+            detailFormatter: genderDetail,  //详情格式化函数
             sidePagination: "server",       //分页方式：client客户端分页，server服务端分页
             pageSize: 10,                   //每页的记录行数
             pageNumber: 1,                  //初始化加载第1页，默认第1页
@@ -161,17 +147,20 @@
                 detailOpen: 'glyphicon-plus icon-plus',
                 detailClose: 'glyphicon-minus icon-minus'
             }
-            , columns: [{
-                field: 'state',
-                checkbox: true,
-                align: 'center',
-                valign: 'middle'
-            },{
+            , columns: [
+            //     {
+            //     field: 'state',
+            //     checkbox: true,
+            //     align: 'center',
+            //     valign: 'middle',
+            // },
+                {
                 title: '序号',
                 field: 'index',
                 align: 'center',
                 valign: 'middle',
-                formatter: genderIndex
+                formatter: genderIndex,
+                width:60
             },{
                 title: '商品名称',
                 field: 'goodsName',
@@ -200,26 +189,28 @@
                 field: 'createTime',
                 align: 'center',
                 valign: 'middle',
-                sortable: true
+                sortable: true,
+                width:180
             },{
                 title: '最后更新时间',
                 field: 'updateTime',
                 align: 'center',
-                valign: 'middle'
-            },
-            //     {
-            //     title: '状态',
-            //     field: 'delete',
-            //     align: 'center',
-            //     valign: 'middle',
-            //     formatter: genderDel
-            // },
-                {
+                valign: 'middle',
+                width:180
+            },{
+                title: '状态',
+                field: 'delete',
+                align: 'center',
+                valign: 'middle',
+                formatter: genderDel,
+                width:90
+            },{
                 title: '操作',
                 field: 'operate',
                 align: 'center',
                 events: operateEvents,
-                formatter: genderOpt
+                formatter: genderOpt,
+                width:90
             }],
             responseHandler: function (res) {
                 if (res.total > 0) {
@@ -237,6 +228,10 @@
             }, onLoadSuccess: function () {
                 //加载成功时执行
                 console.log("加载成功!");
+                $('.bootstrap-table tr td').each(function () {
+                    $(this).attr("title", $(this).text());
+                    $(this).css("cursor", 'pointer');
+                });
             }, onLoadError: function () {
                 //加载失败时执行
                 layer.msg("加载失败!", {icon: 2, time: 2000});
@@ -249,8 +244,6 @@
             }
         })
     }
-
-
 
     //生成详细视图
     function genderDetail(index, row) {
@@ -270,15 +263,21 @@
     }
 
     //自定义列内容
-    function genderOpt() {
-        return [
-            '<a id="edit" href="javascript:void(0)" title="编辑">',
-            '<i class="glyphicon glyphicon-pencil"></i>',
-            '</a>  ',
-            '<a id="remove" href="javascript:void(0)" title="删除">',
-            '<i class="glyphicon glyphicon-trash"></i>',
-            '</a>'
-        ].join('');
+    function genderOpt(value, row, index) {
+
+        var editOpt = '<a id="edit" href="javascript:void(0)" title="编辑"><i class="glyphicon glyphicon-pencil"></i></a>';
+        var deleteOpt = '<a id="remove" href="javascript:void(0)" title="删除" ><i class="glyphicon glyphicon-trash"></i></a>';
+
+        var html1 = [];
+        if(row.delete){
+            html1.push(editOpt);
+        }else{
+            html1.push(editOpt);
+            html1.push("&nbsp;&nbsp;");
+            html1.push(deleteOpt);
+        }
+
+        return html1.join('');
     }
 
     //自定义列内容事件
@@ -287,7 +286,7 @@
             editData(row);
         },
         'click #remove': function (e, value, row, index) {
-            delData(row.id, "one");
+            delData(row.goodsId);
         }
     };
 
@@ -332,34 +331,100 @@
         }
     }
 
+    //替换delete数据为文字
+    function genderDel(value, row, index) {
+        if (value == null || value == undefined) {
+            return "-";
+        }
+        if (!value) {
+            return "正常";
+        }
+        if (value) {
+            return "已删除";
+        }
+    }
 
+    //tr中删除按钮点击事件
+    function delData(id) {
 
-
-
-
-
-
-    /*<![CDATA[*/
-    var tale = new $.tale();
-    function delPost(goodsId) {
-        tale.alertConfirm({
-            title:'确定删除该文章吗?',
-            then: function () {
-                tale.post({
-                    url : '/mng/article/delete',
-                    data: {goodsId: goodsId},
-                    success: function (result) {
-                        if(result && result.success){
-                            tale.alertOkAndReload('文章删除成功');
+        swal({
+            title: '警告',
+            text: '是否删除该商品记录？',
+            type: 'warning',
+            showCancelButton: true,
+            confirmButtonText: '删除',
+            cancelButtonText: '取消'
+        }).then(function(isConfirm) {
+            if (isConfirm === true) {
+                $.ajax({
+                    url: '../mng/goods/delete',
+                    method: 'POST',
+                    contentType: "application/x-www-form-urlencoded",
+                    //阻止深度序列化，向后台传送数组
+                    traditional: true,
+                    async:false,
+                    data: {goodsId: id},
+                    success: function (res) {
+                        if (res.code == "0000") {
+                            swal(
+                                '提示!',
+                                '删除成功!',
+                                'success'
+                            );
                         } else {
-                            tale.alertError(result.msg || '文章删除失败');
+                            swal(
+                                '提示!',
+                                '删除失败，请联系相关技术人员',
+                                'error'
+                            );
                         }
+                        refresh();
                     }
-                });
+                })
+            } else if (isConfirm === false) {
+                consolo.log("");
+                swal(
+                    'Cancelled',
+                    'Your imaginary file is safe :)',
+                    'error'
+                );
+            } else {
+                // Esc, close button or outside click
+                // isConfirm is undefined
+            }
+        },
+        function(dismiss) {
+            if (dismiss === 'cancel') { // you might also handle 'close' or 'timer' if you used those
+                // ignore
+            } else {
+                throw dismiss;
             }
         });
     }
-    /*]]>*/
+
+    //tr中编辑按钮点击事件
+    function editData(row) {
+        //向模态框中传值
+        $('#txt_id').val(row.id);
+        $('#txt_name').val(row.name);
+        $('#txt_pwd').val(row.pwd);
+        $('#txt_email').val(row.email);
+        $('#txt_phone').val(row.phone);
+        if (row.sex == 0) {
+            document.getElementById('p_woman').checked = true;
+        } else {
+            document.getElementById('p_man').checked = true;
+        }
+        $('#txt_type').val("update");
+
+        $('#addAndUpdateLabel').text("修改用户信息");
+
+        //显示模态窗口
+        $('#addAndUpdate').modal({
+            //点击ESC键,模态窗口即会退出。
+            keyboard: true
+        });
+    }
 </script>
 
 </body>

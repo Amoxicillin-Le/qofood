@@ -10,7 +10,6 @@ import java.util.List;
 @Mapper
 public interface GoodsMapper {
 
-
     /**
      * 获取种类下的商品列表
      * @author zhaoxiaolezi
@@ -25,5 +24,17 @@ public interface GoodsMapper {
      */
     Goods selectByGoodsId(Integer goodsId);
 
+    /**
+     * 后台管理分页列表
+     * @author zhaoxiaolezi
+     * @date 2018/6/26 15:06
+     */
     Page<Goods> selectGoodsList(@Param("goodsName") String goodsName, @Param("orderByStr") String orderByStr);
+
+    /**
+     * 删除商品
+     * @author zhaoxiaolezi
+     * @date 2018/6/26 16:32
+     */
+    void deleteGoodsByGoodsId(Integer goodsId);
 }

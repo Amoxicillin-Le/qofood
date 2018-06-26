@@ -1,8 +1,14 @@
 package com.threebrother.qofood.controller.mng;
 
 import com.github.pagehelper.PageInfo;
+import com.google.common.base.Strings;
+import com.threebrother.qofood.common.RequestConstant;
+import com.threebrother.qofood.common.exception.BusinessException;
 import com.threebrother.qofood.entity.Goods;
+import com.threebrother.qofood.model.Result;
 import com.threebrother.qofood.service.GoodsService;
+import com.threebrother.qofood.util.ResultUtil;
+import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -49,5 +55,23 @@ public class GoodsMngController {
                 goodsName, sort, order);
 
         return goodsPageInfo;
+    }
+
+    @RequestMapping("/delete")
+    @ResponseBody
+    public Result deleteGoods(HttpServletRequest request){
+
+        String goodsId = request.getParameter("goodsId");
+
+
+        // 参数校验 如果为空 或者 不是数字
+        if(Strings.isNullOrEmpty(goodsId) || !StringUtils.isNumeric(goodsId)){
+            throw new BusinessException(RequestConstant.DELETE_GOODS_FAILE_CODE,
+                    RequestConstant.DELETE_GOODS_FAILE_MSG);
+        }
+
+        goodsService.deleteGoodsByGoodsId(Integer.valueOf(goodsId));
+
+        return ResultUtil.success();
     }
 }

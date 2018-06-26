@@ -31,7 +31,7 @@ public class GoodsServiceImpl implements GoodsService {
     @Transactional(readOnly = true)
     public PageInfo<Goods> selectGoodsList(int pageNum, int pageSize, String goodsName, String sort, String order) {
 
-
+        // 处理排序字段 默认是创建时间排倒序
         String orderByStr = "";
         if(!Strings.isNullOrEmpty(sort)){
             if(sort.equals("createTime")) {
@@ -47,10 +47,19 @@ public class GoodsServiceImpl implements GoodsService {
             orderByStr = "create_time DESC";
         }
 
+        // 分页查询
         PageHelper.startPage(pageNum, pageSize);
         Page<Goods> goodsPage = goodsMapper.selectGoodsList(goodsName, orderByStr);
 
         return new PageInfo<>(goodsPage);
+    }
+
+    @Override
+    @Transactional
+    public void deleteGoodsByGoodsId(Integer goodsId) {
+
+        // 删除商品 逻辑删除
+        goodsMapper.deleteGoodsByGoodsId(goodsId);
     }
 
 }

@@ -26,6 +26,8 @@ public class Goods implements Serializable {
 
     private Integer goodsCount;
 
+    private Boolean isDelete;
+
     private Timestamp createTime;
 
     private Timestamp updateTime;
@@ -121,6 +123,14 @@ public class Goods implements Serializable {
         this.createTime = createTime;
     }
 
+    public Boolean getDelete() {
+        return isDelete;
+    }
+
+    public void setDelete(Boolean delete) {
+        isDelete = delete;
+    }
+
     public Timestamp getUpdateTime() {
         return updateTime;
     }
@@ -141,7 +151,8 @@ public class Goods implements Serializable {
                 ", goodsBig2ImageUrl='" + goodsBig2ImageUrl + '\'' +
                 ", goodsBig3ImageUrl='" + goodsBig3ImageUrl + '\'' +
                 ", goodsCount='" + goodsCount + '\'' +
-                ", createTime=" + createTime +
+                ", isDelete='" + isDelete + '\'' +
+                ", createTime=" + createTime + '\'' +
                 ", updateTime=" + updateTime +
                 '}';
     }

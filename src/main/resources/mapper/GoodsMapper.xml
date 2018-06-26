@@ -14,6 +14,7 @@
         <result column="goods_big_image2_url" property="goodsBig2ImageUrl" jdbcType="VARCHAR" javaType="String"  />
         <result column="goods_big_image3_url" property="goodsBig3ImageUrl" jdbcType="VARCHAR" javaType="String"  />
         <result column="goods_count" property="goodsCount" jdbcType="INTEGER" javaType="Integer"  />
+        <result column="is_delete"   property="isDelete"   jdbcType="TINYINT" javaType="Boolean"  />
         <result column="create_time" property="createTime" jdbcType="TIMESTAMP" javaType="java.sql.Timestamp"  />
         <result column="update_time" property="updateTime" jdbcType="TIMESTAMP" javaType="java.sql.Timestamp"  />
     </resultMap>
@@ -21,13 +22,13 @@
     <sql id="Base_Column_List">
       goods_id, goods_name, goods_desc, goods_price, goods_sales_volume, goods_small_image_url,
       goods_big_image1_url, goods_big_image2_url, goods_big_image3_url,
-      goods_count, create_time, update_time
+      goods_count, is_delete, create_time, update_time
     </sql>
 
     <sql id="HomePage_Column_List">
       g.goods_id, g.goods_name, g.goods_desc, g.goods_price, g.goods_sales_volume, g.goods_small_image_url,
       g.goods_big_image1_url, g.goods_big_image2_url, g.goods_big_image3_url,
-      g.goods_count, g.create_time, g.update_time
+      g.goods_count, g.is_delete, g.create_time, g.update_time
     </sql>
 
     <!--获取种类下的商品列表-->
@@ -42,8 +43,9 @@
           cgrel.goods_id = g.goods_id
         WHERE
           cgrel.category_id = #{categoryId}
+        AND
+          g.is_delete = 0
     </select>
-
 
     <!--根据id获取商品对象-->
     <select id="selectByGoodsId" resultMap="BaseResultMap" parameterType="Integer" >
@@ -77,5 +79,15 @@
               </otherwise>
           </choose>
     </select>
+
+
+    <update id="deleteGoodsByGoodsId" parameterType="Integer">
+      UPDATE
+        t_goods
+      SET
+        is_delete = 1
+      WHERE
+        goods_id = #{goodsId}
+    </update>
 
 </mapper>

@@ -66,4 +66,8 @@ public class RequestConstant {
 
     public final static String DELETE_ORDER_FAILE_MSG = "删除订单失败";
 
+    public final static String DELETE_GOODS_FAILE_CODE = "7000";
+
+    public final static String DELETE_GOODS_FAILE_MSG= "商品删除失败";
+
 }

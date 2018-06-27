@@ -70,4 +70,8 @@ public class RequestConstant {
 
     public final static String DELETE_GOODS_FAILE_MSG= "商品删除失败";
 
+    public final static String SAVE_GOODS_FAILE_EXISTS_CODE = "7001";
+
+    public final static String SAVE_GOODS_FAILE_EXISTS_MSG= "新增商品失败，已存在该商品！";
+
 }

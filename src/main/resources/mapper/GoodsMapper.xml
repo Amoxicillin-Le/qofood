@@ -90,4 +90,27 @@
         goods_id = #{goodsId}
     </update>
 
+    <insert id="saveGoods" parameterType="com.threebrother.qofood.entity.Goods">
+        INSERT INTO
+          t_goods
+            (goods_name, goods_desc, goods_price, goods_sales_volume, goods_small_image_url,
+            goods_big_image1_url, goods_big_image2_url, goods_big_image3_url,
+            goods_count, is_delete, create_time, update_time)
+        VALUES
+            (#{goodsName}, #{goodsDesc}, #{goodsPrice}, 0, #{goodsSmallImageUrl},
+            #{goodsBig1ImageUrl}, #{goodsBig2ImageUrl}, #{goodsBig3ImageUrl},
+            0, 0, CURRENT_TIMESTAMP, NULL)
+    </insert>
+
+    <select id="selectCountByGoodsName" parameterType="String" resultType="Integer">
+        SELECT
+          COUNT(*)
+        FROM
+          t_goods
+        WHERE
+          goods_name = #{goodsName}
+        AND
+          is_delete = 0
+    </select>
+
 </mapper>

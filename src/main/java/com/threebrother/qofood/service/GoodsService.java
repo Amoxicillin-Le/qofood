@@ -10,4 +10,6 @@ public interface GoodsService {
     PageInfo<Goods> selectGoodsList(int pageNum, int pageSize, String goodsName, String sort, String order);
 
     void deleteGoodsByGoodsId(Integer goodsId);
+
+    void saveGoods(Goods goods);
 }

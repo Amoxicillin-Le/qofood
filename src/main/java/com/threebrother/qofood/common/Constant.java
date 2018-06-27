@@ -10,6 +10,8 @@ public class Constant {
 
     public static int INT_TWO = 2;
 
+    public static int INT_THREE = 3;
+
     public static BigDecimal DEFAULT_FREIGHT_AMOUNT = new BigDecimal(5);
 
     public static BigDecimal BIGDECIMAL_ZERO = new BigDecimal(0);
@@ -35,4 +37,5 @@ public class Constant {
     public static String AES_SALT = "0123456789abcdef";
 
 
+    public static String IMAGES_SPLIT_FLAG = "qof@@d";
 }

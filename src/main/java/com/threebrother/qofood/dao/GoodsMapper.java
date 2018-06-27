@@ -37,4 +37,18 @@ public interface GoodsMapper {
      * @date 2018/6/26 16:32
      */
     void deleteGoodsByGoodsId(Integer goodsId);
+
+    /**
+     * 新增商品
+     * @author zhaoxiaolezi
+     * @date 2018/6/27 17:44
+     */
+    void saveGoods(Goods goods);
+
+    /**
+     * 根据商品名称 获取该商品名称的记录数
+     * @author zhaoxiaolezi
+     * @date 2018/6/27 17:58
+     */
+    Integer selectCountByGoodsName(@Param("goodsName")String goodsName);
 }

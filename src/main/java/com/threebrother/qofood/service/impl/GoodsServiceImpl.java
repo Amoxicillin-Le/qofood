@@ -4,6 +4,9 @@ import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.google.common.base.Strings;
+import com.threebrother.qofood.common.Constant;
+import com.threebrother.qofood.common.RequestConstant;
+import com.threebrother.qofood.common.exception.BusinessException;
 import com.threebrother.qofood.dao.GoodsMapper;
 import com.threebrother.qofood.entity.Goods;
 import com.threebrother.qofood.service.GoodsService;
@@ -60,6 +63,18 @@ public class GoodsServiceImpl implements GoodsService {
 
         // 删除商品 逻辑删除
         goodsMapper.deleteGoodsByGoodsId(goodsId);
+    }
+
+    @Override
+    @Transactional
+    public void saveGoods(Goods goods) {
+
+        Integer count = goodsMapper.selectCountByGoodsName(goods.getGoodsName());
+        if(count > Constant.INT_ZERO){
+            throw new BusinessException(RequestConstant.SAVE_GOODS_FAILE_EXISTS_CODE,
+                    RequestConstant.SAVE_GOODS_FAILE_EXISTS_MSG);
+        }
+        goodsMapper.saveGoods(goods);
     }
 
 }

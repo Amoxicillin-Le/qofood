@@ -32,11 +32,11 @@ public class GoodsServiceImpl implements GoodsService {
 
     @Override
     @Transactional(readOnly = true)
-    public PageInfo<Goods> selectGoodsList(int pageNum, int pageSize, String goodsName, String sort, String order) {
+    public PageInfo<Goods> selectGoodsList(int pageNum, int pageSize, String goodsName, String isDelete, String sort, String order) {
 
         // 处理排序字段 默认是创建时间排倒序
         String orderByStr = "";
-        if(!Strings.isNullOrEmpty(sort)){
+        if(!Strings.isNullOrEmpty(sort)) {
             if(sort.equals("createTime")) {
                 orderByStr = "create_time " + order.toUpperCase();
             }
@@ -50,9 +50,20 @@ public class GoodsServiceImpl implements GoodsService {
             orderByStr = "create_time DESC";
         }
 
+        // 处理是否删除字段
+        Boolean isDeleteB = null;
+        if(!Strings.isNullOrEmpty(isDelete)) {
+            if(Integer.valueOf(isDelete) == Constant.INT_ONE) {
+                isDeleteB = true;
+            }
+            if(Integer.valueOf(isDelete) == Constant.INT_ZERO){
+                isDeleteB = false;
+            }
+        }
+
         // 分页查询
         PageHelper.startPage(pageNum, pageSize);
-        Page<Goods> goodsPage = goodsMapper.selectGoodsList(goodsName, orderByStr);
+        Page<Goods> goodsPage = goodsMapper.selectGoodsList(goodsName, isDeleteB, orderByStr);
 
         return new PageInfo<>(goodsPage);
     }
@@ -61,7 +72,9 @@ public class GoodsServiceImpl implements GoodsService {
     @Transactional
     public void deleteGoodsByGoodsId(Integer goodsId) {
 
-        // 删除商品 逻辑删除
+        // 删除分类关联数据
+        goodsMapper.deleteCateGoryGoodsRelByGoodsId(goodsId);
+        // 删除商品
         goodsMapper.deleteGoodsByGoodsId(goodsId);
     }
 
@@ -75,6 +88,19 @@ public class GoodsServiceImpl implements GoodsService {
                     RequestConstant.SAVE_GOODS_FAILE_EXISTS_MSG);
         }
         goodsMapper.saveGoods(goods);
+    }
+
+    @Override
+    @Transactional
+    public void updateGoods(Goods goods) {
+
+        Integer count = goodsMapper.selectCountByGoodsId(goods.getGoodsId());
+        if(count <= Constant.INT_ZERO){
+            throw new BusinessException(RequestConstant.UPDATE_GOODS_FAILE_NON_EXISTS_CODE,
+                    RequestConstant.UPDATE_GOODS_FAILE_NON_EXISTS_MSG);
+        }
+
+        goodsMapper.updateGoods(goods);
     }
 
 }

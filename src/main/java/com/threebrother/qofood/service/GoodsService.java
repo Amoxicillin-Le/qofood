@@ -7,9 +7,11 @@ public interface GoodsService {
 
     Goods getGoodsById(Integer id);
 
-    PageInfo<Goods> selectGoodsList(int pageNum, int pageSize, String goodsName, String sort, String order);
+    PageInfo<Goods> selectGoodsList(int pageNum, int pageSize, String goodsName, String isDelete, String sort, String order);
 
     void deleteGoodsByGoodsId(Integer goodsId);
 
     void saveGoods(Goods goods);
+
+    void updateGoods(Goods goods);
 }

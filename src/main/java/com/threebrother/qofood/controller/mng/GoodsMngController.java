@@ -52,9 +52,10 @@ public class GoodsMngController {
         String sort = request.getParameter("sort");
         String order = request.getParameter("order");
         String goodsName = request.getParameter("goodsName");
+        String isDelete = request.getParameter("isDelete");
 
         PageInfo<Goods> goodsPageInfo = goodsService.selectGoodsList(Integer.valueOf(pageNumber), Integer.valueOf(pageSize),
-                goodsName, sort, order);
+                goodsName, isDelete, sort, order);
 
         return goodsPageInfo;
     }
@@ -102,7 +103,7 @@ public class GoodsMngController {
 
     private void goodsBigImageUrlHander(Goods goods, String urlArrayStr){
         String[] goodsBigImageUrlArray = urlArrayStr.split(Constant.IMAGES_SPLIT_FLAG);
-        LOGGER.info("新增商品列表图片" + goodsBigImageUrlArray.length + "张");
+        LOGGER.info("新增商品详情图片" + goodsBigImageUrlArray.length + "张");
         if(goodsBigImageUrlArray.length == Constant.INT_ONE){
             goods.setGoodsBig1ImageUrl(goodsBigImageUrlArray[Constant.INT_ZERO]);
             goods.setGoodsBig2ImageUrl(goodsBigImageUrlArray[Constant.INT_ZERO]);
@@ -134,7 +135,7 @@ public class GoodsMngController {
         Map<String,MultipartFile> fileMap = multipartRequest.getFileMap();
 
         //TODO 服务器路径/home/static/upload
-        // String filePath = "F:\\TEST";
+//        String filePath = "F:\\TEST";
         String filePath = "/home/static/upload/img";
 
         Map<String, Object> map = new HashMap<>();
@@ -163,6 +164,7 @@ public class GoodsMngController {
             }
             map.put("success", true);
             map.put("filePath", "https://www.kar98.com.cn/static/img/" + fileName);
+//            map.put("filePath", savePath + "/" + fileName);
             return map;
         }catch (Exception e) {
             map.put("success", false);
@@ -170,4 +172,31 @@ public class GoodsMngController {
         }
     }
 
+
+    @RequestMapping("/update")
+    @ResponseBody
+    public Result updateGoods(HttpServletRequest request){
+
+        // 获取参数
+        String goodsId = request.getParameter("goodsId");
+        String goodsName = request.getParameter("goodsName");
+        String goodsDesc = request.getParameter("goodsDesc");
+        String goodsPrice = request.getParameter("goodsPrice");
+        String isdelete = request.getParameter("isDelete");
+        String goodsSmallImageUrl = request.getParameter("goodsSmallImageUrl");
+        String goodsBigImageUrl = request.getParameter("goodsBigImageUrl");
+
+        Goods goods = new Goods();
+        goods.setGoodsId(Integer.valueOf(goodsId));
+        goods.setGoodsName(goodsName);
+        goods.setGoodsDesc(goodsDesc);
+        goods.setGoodsPrice(new BigDecimal(goodsPrice));
+        goods.setDelete(isdelete.equals("0") ? false : true);
+        goods.setGoodsSmallImageUrl(goodsSmallImageUrl);
+        goodsBigImageUrlHander(goods, goodsBigImageUrl);
+
+        goodsService.updateGoods(goods);
+
+        return ResultUtil.success();
+    }
 }

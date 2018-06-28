@@ -69,6 +69,10 @@
           <if test="goodsName != null and goodsName != ''">
             AND goods_name LIKE CONCAT(CONCAT('%', #{goodsName}, '%'))
           </if>
+
+          <if test="isDelete != null ">
+            AND is_delete = #{isDelete}
+          </if>
         ORDER BY
           <choose>
               <when test="orderByStr != null and orderByStr != ''">
@@ -85,7 +89,8 @@
       UPDATE
         t_goods
       SET
-        is_delete = 1
+        is_delete = 1,
+        update_time = CURRENT_TIMESTAMP
       WHERE
         goods_id = #{goodsId}
     </update>
@@ -109,8 +114,39 @@
           t_goods
         WHERE
           goods_name = #{goodsName}
-        AND
-          is_delete = 0
     </select>
+
+    <select id="selectCountByGoodsId" parameterType="Integer" resultType="Integer">
+        SELECT
+          COUNT(*)
+        FROM
+          t_goods
+        WHERE
+          goods_id = #{goodsId}
+    </select>
+
+    <update id="updateGoods" parameterType="com.threebrother.qofood.entity.Goods" >
+      UPDATE
+        t_goods
+      SET
+        goods_name = #{goodsName},
+        goods_desc = #{goodsDesc},
+        goods_price = #{goodsPrice},
+        goods_small_image_url = #{goodsSmallImageUrl},
+        goods_big_image1_url = #{goodsBig1ImageUrl},
+        goods_big_image2_url = #{goodsBig2ImageUrl},
+        goods_big_image3_url = #{goodsBig3ImageUrl},
+        is_delete = #{delete},
+        update_time = CURRENT_TIMESTAMP
+      WHERE
+        goods_id = #{goodsId}
+    </update>
+
+    <delete id="deleteCateGoryGoodsRelByGoodsId" parameterType="Integer">
+      DELETE FROM
+        t_category_goods_rel
+      WHERE
+        goods_id = #{goodsId}
+    </delete>
 
 </mapper>

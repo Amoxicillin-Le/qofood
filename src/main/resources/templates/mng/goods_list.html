@@ -42,16 +42,26 @@
                     <div class="row-fluid">
                         <div class="span12">
                             <div class="control-group form-inline" style="border: 1px solid #ccc;padding: 10px; border-radius: 3px;">
-                                <div class="input-group input-group">
-                                    <label for="goodsName">商品名称</label>&nbsp;
-                                    <input id="goodsName" type="text"/>&nbsp;
-                                </div>
-                                <button id="btn_search" type="button" class="btn btn-primary btn-sm">
-                                    <span class="glyphicon glyphicon-search" aria-hidden="true"></span>查询
-                                </button>&nbsp;
-
-                                <button id="btn_clean_search" type="button" class="btn btn-danger btn-sm">清空条件</button>
-
+                                <form class="form-inline">
+                                    <div class="form-group">
+                                        <label for="goodsName">商品名称</label>&nbsp;
+                                        <input id="goodsName" type="text" class="form-control" placeholder="商品名称"/>&nbsp;&nbsp;
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="isDelete">商品状态</label>&nbsp;
+                                        <select id="isDelete" class="form-control" >
+                                            <option value="-1">全部</option>
+                                            <option value="0">正常</option>
+                                            <option value="1">已删除</option>
+                                        </select>&nbsp;&nbsp;
+                                    </div>
+                                    <button id="btn_search" type="button" class="btn btn-primary">
+                                        查询
+                                    </button>&nbsp;&nbsp;
+                                    <button id="btn_clean_search" type="button" class="btn btn-danger">
+                                        清空条件
+                                    </button>
+                                </form>
                             </div>
                         </div>
                     </div>
@@ -73,18 +83,16 @@
     </div>
 </div>
 
-<!-- 新增或修改弹框 -->
-<div class="modal fade" id="addModal" tabindex="-1" role="dialog" aria-labelledby="addModalLabel">
+<!-- 新增模态框 -->
+<div class="modal fade" id="addModal" tabindex="-1" role="dialog" aria-labelledby="addModalLabel" data-backdrop="static">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
                         aria-hidden="true">×</span></button>
-                <h4 class="modal-title" id="addAndUpdateLabel">新增商品信息</h4>
+                <h4 class="modal-title" id="addLabel">新增商品信息</h4>
             </div>
             <div class="modal-body">
-                <input type="hidden" name="txt_type" class="form-control" id="txt_type" placeholder="操作类型" />
-                <input type="hidden" name="txt_id" class="form-control" id="txt_id" placeholder="编号" />
                 <div class="form-group">
                     <label for="goods_name">商品名称</label>
                     <input type="text" name="goods_name" class="form-control" id="goods_name" placeholder="商品名称" />
@@ -95,26 +103,82 @@
                 </div>
                 <div class="form-group">
                     <label for="goods_price">商品单价</label>
-                    <input type="number" name="goods_price" class="form-control" id="goods_price" placeholder="商品单价" min="0"/>
+                    <input type="number" name="goods_price" class="form-control" id="goods_price" placeholder="商品单价" min="0" />
                 </div>
                 <div class="form-group">
                     <label for="goods_small_image_url">商品列表展示图片</label>
                     <input type="file" id="goods_small_image" class="file-load" data-language="zh" />
-                    <input type="hidden" id="goods_small_image_url" name="goods_small_image_url" class="file-load" data-language="zh" value=""/>
+                    <input type="hidden" id="goods_small_image_url" name="goods_small_image_url" class="file-load" data-language="zh" value="" />
                 </div>
                 <div class="form-group">
                     <label for="goods_big_image_url">商品详情展示图片</label><span style="color: red">（最多支持三张）</span>
                     <input type="file" id="goods_big_image" class="file-load" data-language="zh" multiple="multiple" />
-                    <input type="hidden" id="goods_big_image_url" name="goods_big_image_url" class="file-load" data-language="zh" value=""/>
+                    <input type="hidden" id="goods_big_image_url" name="goods_big_image_url" class="file-load" data-language="zh" value="" />
                 </div>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-default btn-sm" data-dismiss="modal"><span
-                        class="glyphicon glyphicon-remove" aria-hidden="true"></span>关闭
-                </button>
-                <button id="btn_add_submit" type="button" class="btn btn-primary btn-sm" data-dismiss="modal"><span
-                        class="glyphicon glyphicon-floppy-disk" aria-hidden="true"></span>保存
-                </button>
+                <div class="form-group" style="margin-top: 10px">
+                    <button type="button" class="btn btn-default btn-sm" data-dismiss="modal"><span
+                            class="glyphicon glyphicon-remove" aria-hidden="true"></span>关闭
+                    </button>
+                    <button id="btn_add_submit" type="button" class="btn btn-primary btn-sm" data-dismiss="modal"><span
+                            class="glyphicon glyphicon-floppy-disk" aria-hidden="true"></span>保存
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<!-- 修改模态框 -->
+<div class="modal fade" id="updateModal" tabindex="-1" role="dialog" aria-labelledby="updateModalLabel" data-backdrop="static">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                        aria-hidden="true">×</span></button>
+                <h4 class="modal-title" id="updateLabel">更新商品信息</h4>
+            </div>
+            <div class="modal-body">
+                <input type="hidden" name="update_goods_id" class="form-control" id="update_goods_id" placeholder="商品编号" />
+                <div class="form-group">
+                    <label for="update_goods_name">商品名称</label>
+                    <input type="text" name="update_goods_name" class="form-control" id="update_goods_name" placeholder="商品名称" />
+                </div>
+                <div class="form-group">
+                    <label for="update_goods_desc">商品描述</label>
+                    <textarea type="textarea" name="update_goods_desc" class="form-control" id="update_goods_desc" placeholder="商品描述" style="resize: none; height: 120px" />
+                </div>
+                <div class="form-group">
+                    <label for="update_goods_price">商品单价</label>
+                    <input type="number" name="update_goods_price" class="form-control" id="update_goods_price" placeholder="商品单价" min="0"/>
+                </div>
+                <div class="form-group">
+                    <label for="update_goods_isdelete">商品状态</label>
+                    <select id="update_goods_isdelete" class="form-control" >
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="update_goods_small_image_url">商品列表展示图片</label>
+                    <input type="file" id="update_goods_small_image" class="file-load" data-language="zh" />
+                    <input type="hidden" id="update_goods_small_image_url" name="update_goods_small_image_url" class="file-load" data-language="zh" value=""/>
+                </div>
+                <div class="form-group">
+                    <label for="update_goods_big_image_url">商品详情展示图片</label><span style="color: red">（最多支持三张）</span>
+                    <input type="file" id="update_goods_big_image" class="file-load" data-language="zh" multiple="multiple" />
+                    <input type="hidden" id="update_goods_big_image_url" name="update_goods_big_image_url" class="file-load" data-language="zh" value=""/>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <div class="form-group" style="margin-top: 10px">
+                    <button type="button" class="btn btn-default btn-sm" data-dismiss="modal"><span
+                            class="glyphicon glyphicon-remove" aria-hidden="true"></span>关闭
+                    </button>
+                    <button id="btn_update_submit" type="button" class="btn btn-primary btn-sm" data-dismiss="modal"><span
+                            class="glyphicon glyphicon-floppy-disk" aria-hidden="true"></span>更新
+                    </button>
+                </div>
             </div>
         </div>
     </div>
@@ -122,8 +186,6 @@
 
 <!--页面底部区域-->
 <div th:replace="mng/footer :: footer"></div>
-
-
 
 
 <script type="text/javascript">
@@ -138,6 +200,7 @@
         $table.bootstrapTable('resetView');
     });
 
+    // 页面初始化
     $(function () {
         //使用严格模式
         "use strict";
@@ -145,13 +208,6 @@
         // 表格初始化
         tableInit();
         $('#goodsTable').bootstrapTable('hideLoading');
-
-        // 上传组件初始化
-        var oFileInput = new FileInput();
-        oFileInput.Init("goods_small_image", "/mng/goods/fileupload");
-
-        var oFileInput1 = new FileInput1();
-        oFileInput1.Init("goods_big_image", "/mng/goods/fileupload");
     });
 
     //初始化Table
@@ -286,7 +342,7 @@
                 return resultDataList;
             }, onLoadSuccess: function () {
                 //加载成功时执行
-                console.log("加载成功!");
+                console.log("表格加载成功!");
                 $('.bootstrap-table tr td').each(function () {
                     $(this).attr("title", $(this).text());
                     $(this).css("cursor", 'pointer');
@@ -294,7 +350,7 @@
             }, onLoadError: function () {
                 //加载失败时执行
                 //layer.msg("加载失败!", {icon: 2, time: 2000});
-                console.info("加载失败")
+                console.info("表格加载失败")
             }, formatLoadingMessage: function () {
                 //正在加载
                 return "请稍等，正在加载中...";
@@ -358,8 +414,11 @@
         //每页记录数
         params.pageSize = this.pageSize;
 
-        //name
+        //商品名称
         params.goodsName = $("#goodsName").val();
+
+        //商品状态
+        params.isDelete = $("#isDelete").val();
 
         return params;
     }
@@ -367,6 +426,7 @@
     //清空条件按钮点击事件
     $("#btn_clean_search").on("click", function () {
         $('#goodsName').val("");
+        $("#isDelete").val("-1");
         refresh();
     });
 
@@ -481,7 +541,7 @@
 
         $('#goods_name').val("");
         $('#goods_desc').val("");
-        $('#goods_price').val(""),
+        $('#goods_price').val("");
         $('#goods_small_image_url').val("");
         $('#goods_big_image_url').val("");
     }
@@ -489,11 +549,15 @@
     // 新增按钮点击事件
     $("#btn_add").on("click", function () {
         $('#addModalLabel').text("新增商品信息");
-        $('#txt_type').val("add");
         $('#addModal').modal({
             //点击ESC键,模态窗口即会退出。
             keyboard: true
         });
+        // 上传组件初始化
+        var oFileInput = new FileInput();
+        oFileInput.Init("goods_small_image", "/mng/goods/fileupload");
+        var oFileInput1 = new FileInput1();
+        oFileInput1.Init("goods_big_image", "/mng/goods/fileupload");
     });
 
     // 表格列中的删除按钮点击事件
@@ -544,7 +608,8 @@
             }
         },
         function(dismiss) {
-            if (dismiss === 'cancel') { // you might also handle 'close' or 'timer' if you used those
+            if (dismiss === 'cancel') {
+                // you might also handle 'close' or 'timer' if you used those
                 // ignore
             } else {
                 throw dismiss;
@@ -554,26 +619,122 @@
 
     // 表格列中的中编辑按钮点击事件
     function editData(row) {
+
         //向模态框中传值
-        $('#txt_id').val(row.id);
-        $('#txt_name').val(row.name);
-        $('#txt_pwd').val(row.pwd);
-        $('#txt_email').val(row.email);
-        $('#txt_phone').val(row.phone);
-        if (row.sex == 0) {
-            document.getElementById('p_woman').checked = true;
-        } else {
-            document.getElementById('p_man').checked = true;
+        $('#update_goods_id').val(row.goodsId);
+        $('#update_goods_name').val(row.goodsName);
+        $('#update_goods_desc').val(row.goodsDesc);
+        $('#update_goods_price').val(row.goodsPrice);
+        if(row.delete){
+            $("#update_goods_isdelete").append('<option value="0" >正常</option>');
+            $("#update_goods_isdelete").append('<option value="1" selected="selected">已删除</option>');
+        }else{
+            $("#update_goods_isdelete").append('<option value="0" selected="selected">正常</option>');
+            $("#update_goods_isdelete").append('<option value="1" >已删除</option>');
         }
-        $('#txt_type').val("update");
+        $('#update_goods_small_image_url').val(row.goodsSmallImageUrl);
+        $('#update_goods_big_image_url').val(row.goodsBig1ImageUrl + "qof@@d" + row.goodsBig2ImageUrl + "qof@@d" + row.goodsBig3ImageUrl);
 
-        $('#addAndUpdateLabel').text("修改用户信息");
+        // 初始化更新模态框的 商品列表图片 上传组件
+        var oFileInput2 = new FileInput2();
+        oFileInput2.Init("update_goods_small_image", "/mng/goods/fileupload", row.goodsSmallImageUrl);
+        // 初始化更新模态框的 商品详情图片 上传组件
+        var oFileInput3 = new FileInput3();
+        oFileInput3.Init("update_goods_big_image", "/mng/goods/fileupload", row.goodsBig1ImageUrl, row.goodsBig2ImageUrl ,row.goodsBig3ImageUrl);
 
-        //显示模态窗口
-        $('#addAndUpdate').modal({
+        // 展示模态框
+        $('#updataModalLabel').text("修改商品信息");
+        $('#updateModal').modal({
             //点击ESC键,模态窗口即会退出。
             keyboard: true
         });
+    }
+
+    //更新商品模态太框 保存按钮 点击事件
+    $("#btn_update_submit").off().on('click', function () {
+
+        var goodsId = $('#update_goods_id').val(),
+            goodsName = $('#update_goods_name').val(),
+            goodsDesc = $('#update_goods_desc').val(),
+            goodsPrice = $('#update_goods_price').val(),
+            isDelete = $("#update_goods_isdelete").val(),
+            goodsSmallImageUrl = $('#update_goods_small_image_url').val(),
+            goodsBigImageUrl = $('#update_goods_big_image_url').val();
+
+        //验证数据
+        /* <![CDATA[ */
+        if (!goodsName || goodsName.length <= 0 || goodsName == " ") {
+            swal('警告', '请填写商品名称!', 'error');
+            return false;
+        }
+        if (!goodsDesc || goodsDesc.length <= 0 || goodsDesc == " ") {
+            swal('警告', '请填写商品描述!', 'error');
+            return false;
+        }
+        if (!goodsPrice || goodsPrice <= 0 || goodsPrice == " ") {
+            swal('警告', '请填写准确的商品价格!', 'error');
+            return false;
+        }
+        if (!goodsSmallImageUrl || goodsSmallImageUrl.length <= 0 || goodsSmallImageUrl == " " || goodsSmallImageUrl == null) {
+            swal('警告', '请上传商品列表展示图片!', 'error');
+            return false;
+        }
+        if (!goodsBigImageUrl || goodsBigImageUrl.length <= 0 || goodsBigImageUrl == " " || goodsBigImageUrl == null) {
+            swal('警告', '请上传商品详情展示图片!', 'error');
+            return false;
+        }
+        /* ]]> */
+
+        $.ajax({
+            url: '../mng/goods/update',
+            method: 'post',
+            contentType: "application/x-www-form-urlencoded",
+            async:false,
+            data: {
+                goodsId: goodsId,
+                goodsName: goodsName,
+                goodsDesc: goodsDesc,
+                goodsPrice: goodsPrice,
+                isDelete: isDelete,
+                goodsSmallImageUrl: goodsSmallImageUrl,
+                goodsBigImageUrl: goodsBigImageUrl
+            },
+            //阻止深度序列化，向后台传送数组
+            traditional: true,
+            success: function (res) {
+                if (res.code == "0000") {
+                    swal('提示', '更新商品成功!', 'success');
+                    // 隐藏新增模态框
+                    $('#addModal').modal('hide');
+                    // 刷新表格
+                    refresh();
+                } else {
+                    if(res.code == "7002"){
+                        swal('警告', '更新失败，商品信息不存在!', 'error');
+                    }else{
+                        swal('警告', '更新失败，请来联系相关技术人员!', 'error');
+                    }
+                }
+            }
+        })
+    });
+
+    // 监听 更新模态框 关闭事件
+    $("#updateModal").on("hidden.bs.modal", function() {
+        updateModelRefresh();
+    });
+
+    // 重置 更新模态框
+    function updateModelRefresh(){
+        $('#update_goods_id').val("");
+        $('#update_goods_name').val("");
+        $('#update_goods_desc').val("");
+        $('#update_goods_price').val("");
+        $('#update_goods_small_image_url').val("");
+        $('#update_goods_big_image_url').val("");
+        $("#update_goods_isdelete").empty();
+        $("#update_goods_small_image").fileinput('destroy');
+        $("#update_goods_big_image").fileinput('destroy');
     }
 
     //初始化商品列表图片上传组件
@@ -607,14 +768,14 @@
                 layoutTemplates :{
                     actionDelete:'', //去除上传预览的缩略图中的删除图标
                     actionUpload:'',//去除上传预览缩略图中的上传图片；
-                    //actionZoom:''   //去除上传预览缩略图中的查看详情预览的缩略图标。
+                    actionZoom:''   //去除上传预览缩略图中的查看详情预览的缩略图标。
                 },
             });
         }
         return oFile;
     };
 
-    // 导入文件上传完成之后的事件
+    // 商品列表文件上传完成之后的事件
     $("#goods_small_image").on("fileuploaded", function (event, data, previewId, index) {
         var goodsSmallImageUrl = data.response;
         $("#goods_small_image_url").val(goodsSmallImageUrl);
@@ -639,28 +800,22 @@
                 showCaption: true,//是否显示标题
                 browseClass: "btn btn-primary", //按钮样式
                 dropZoneEnabled: true,//是否显示拖拽区域
-                //minImageWidth: 50, //图片的最小宽度
-                //minImageHeight: 50,//图片的最小高度
-                //maxImageWidth: 1000,//图片的最大宽度
-                //maxImageHeight: 1000,//图片的最大高度
-                //maxFileSize: 0,//单位为kb，如果为0表示不限制文件大小
-                //minFileCount: 0,
                 maxFileCount: 3, //表示允许同时上传的最大文件个数
                 enctype: 'multipart/form-data',
                 validateInitialCount:true,
                 previewFileIcon: '<i class="glyphicon glyphicon-king"></i>',// 没有预览图时的展示图标
                 msgFilesTooMany: "选择上传的文件数量({n}) 超过允许的最大数值{m}！",
                 layoutTemplates :{
-                //     actionDelete:'', //去除上传预览的缩略图中的删除图标
+                    // actionDelete:'', //去除上传预览的缩略图中的删除图标
                     actionUpload:'',//去除上传预览缩略图中的上传图片；
-                //     actionZoom:''   //去除上传预览缩略图中的查看详情预览的缩略图标。
+                    actionZoom:''   //去除上传预览缩略图中的查看详情预览的缩略图标。
                 },
             });
         }
         return oFile;
     };
 
-    // 导入文件上传完成之后的事件
+    // 商品详情文件上传完成之后的事件
     $("#goods_big_image").on("fileuploaded", function (event, data, previewId, index) {
         var goodsBigImageUrl = data.response;
         var goodsBigImageUrlVal = $("#goods_big_image_url").val();
@@ -674,6 +829,115 @@
         // console.log("详情value = " + $("#goods_big_image_url").val())
     });
 
+
+    // 修改商品信息 商品列表图片 上传组件
+    var FileInput2 = function () {
+        var oFile = new Object();
+
+        //初始化fileinput控件（第一次初始化）
+        oFile.Init = function(ctrlName, uploadUrl, goodsSmallImageUrl) {
+            var control = $('#' + ctrlName);
+            //初始化上传控件的样式
+            control.fileinput({
+                language: 'zh', //设置语言
+                uploadUrl: uploadUrl, //上传的地址
+                allowedFileExtensions: ['jpg','png','bmp','jpeg'],//接收的文件后缀
+                showUpload: true, //是否显示上传按钮
+                showCaption: true,//是否显示标题
+                browseClass: "btn btn-primary", //按钮样式
+                dropZoneEnabled: true,//是否显示拖拽区域
+                enctype: 'multipart/form-data',
+                validateInitialCount:true,
+                previewFileIcon: '<i class="glyphicon glyphicon-king"></i>',// 没有预览图的展示图标
+                msgFilesTooMany: "选择上传的文件数量({n}) 超过允许的最大数值{m}！",
+                layoutTemplates:{
+                    actionDelete:'', //去除上传预览的缩略图中的删除图标
+                    actionUpload:'',//去除上传预览缩略图中的上传图片；
+                    actionZoom:''   //去除上传预览缩略图中的查看详情预览的缩略图标。
+                },
+                /* <![CDATA[ */
+                initialPreview:[ //预览图片的设置
+                    '<img src="'+goodsSmallImageUrl+'" alt="商品列表展示图片" class="file-preview-image" style="width:auto;height:auto;max-width:100%;max-height:100%;">',
+                ]
+                /* ]]> */
+            });
+        }
+        return oFile;
+    };
+
+    // 修改商品信息 商品列表图片文件 选择文件以后的事件
+    $("#update_goods_small_image").on("filebatchselected", function(event, files) {
+        $("#update_goods_small_image_url").val("");
+    });
+
+    // 修改商品信息 商品列表图片文件 上传完成之后的事件
+    $("#update_goods_small_image").on("fileuploaded", function (event, data, previewId, index) {
+        var goodsSmallImageUrl = data.response;
+        $("#update_goods_small_image_url").val(goodsSmallImageUrl);
+
+        // console.log("列表value = " + $("#goods_big_image_url").val())
+    });
+
+
+    // 修改商品信息 商品详情图片 上传组件
+    var FileInput3 = function () {
+        var oFile = new Object();
+
+        //初始化fileinput控件（第一次初始化）
+        oFile.Init = function(ctrlName, uploadUrl, goodsBig1ImageUrl, goodsBig2ImageUrl ,goodsBig3ImageUrl) {
+            var control = $('#' + ctrlName);
+
+            //初始化上传控件的样式
+            control.fileinput({
+                language: 'zh', //设置语言
+                uploadUrl: uploadUrl, //上传的地址
+                allowedFileExtensions: ['jpg','png','bmp','jpeg'],//接收的文件后缀
+                showUpload: true, //是否显示上传按钮
+                showCaption: true,//是否显示标题
+                browseClass: "btn btn-primary", //按钮样式
+                dropZoneEnabled: true,//是否显示拖拽区域
+                maxFileCount: 3, //表示允许同时上传的最大文件个数
+                enctype: 'multipart/form-data',
+                validateInitialCount:true,
+                previewFileIcon: '<i class="glyphicon glyphicon-king"></i>',// 没有预览图时的展示图标
+                msgFilesTooMany: "选择上传的文件数量({n}) 超过允许的最大数值{m}！",
+                layoutTemplates :{
+                    actionDelete:'', //去除上传预览的缩略图中的删除图标
+                    actionUpload:'',//去除上传预览缩略图中的上传图片；
+                    actionZoom:''   //去除上传预览缩略图中的查看详情预览的缩略图标。
+                },
+                /* <![CDATA[ */
+                initialPreview:[ //预览图片的设置
+                '<img src="'+goodsBig1ImageUrl+'" alt="商品详情展示图片1" class="file-preview-image" style="width:auto;height:auto;max-width:100%;max-height:100%;">',
+                '<img src="'+goodsBig2ImageUrl+'" alt="商品详情展示图片2" class="file-preview-image" style="width:auto;height:auto;max-width:100%;max-height:100%;">',
+                '<img src="'+goodsBig3ImageUrl+'" alt="商品详情展示图片3" class="file-preview-image" style="width:auto;height:auto;max-width:100%;max-height:100%;">',
+            ]
+            /* ]]> */
+            });
+        }
+        return oFile;
+    };
+
+    // 修改商品信息 商品详情图片文件 选择文件以后的事件
+    $("#update_goods_big_image").on("filebatchselected", function(event, files) {
+        $("#update_goods_big_image_url").val("");
+    });
+
+    // 修改商品信息 商品详情图片文件 上传完成之后的事件
+    $("#update_goods_big_image").on("fileuploaded", function (event, data, previewId, index) {
+        var goodsBigImageUrl = data.response;
+        var goodsBigImageUrlVal = $("#update_goods_big_image_url").val();
+
+        if(goodsBigImageUrlVal != ''){
+            $("#update_goods_big_image_url").val(goodsBigImageUrlVal + "qof@@d" + goodsBigImageUrl);
+        }else{
+            $("#update_goods_big_image_url").val(goodsBigImageUrl);
+        }
+        // console.log("详情value = " + $("#goods_big_image_url").val())
+    });
+
+    /* <![CDATA[ */
+    /* ]]> */
 </script>
 
 </body>

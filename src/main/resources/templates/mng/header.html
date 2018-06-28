@@ -20,7 +20,8 @@
     <link th:href="@{//cdn.bootcss.com/limonte-sweetalert2/6.4.1/sweetalert2.min.css}" rel="stylesheet"/>
     <!--bootstrap 文件上传组件-->
     <link th:href="@{//cdn.bootcss.com/bootstrap-fileinput/4.4.8/css/fileinput.css}" rel="stylesheet"/>
-
+    <!--bootstrap switch开关组件-->
+    <link th:href="@{//cdn.bootcss.com/bootstrap-switch/3.3.4/css/bootstrap3/bootstrap-switch.css}" rel="stylesheet"/>
     <link th:href="@{/mng/css/style.min.css}" rel="stylesheet" type="text/css"/>
 
 
@@ -81,12 +82,11 @@
         <div id="sidebar-menu">
             <ul>
 
-
-                <li th:class="${active}=='home'?'active':''">
-                <a th:href="@{/mng/index}"
-                th:class="${active}=='home'?'waves-effect active':'waves-effect'"><i
-                class="fa fa-dashboard" aria-hidden="true"></i><span> 仪表盘 </span></a>
-                </li>
+                <!--<li th:class="${active}=='home'?'active':''">-->
+                <!--<a th:href="@{/mng/index}"-->
+                <!--th:class="${active}=='home'?'waves-effect active':'waves-effect'"><i-->
+                <!--class="fa fa-dashboard" aria-hidden="true"></i><span> 仪表盘 </span></a>-->
+                <!--</li>-->
 
                 <!-- 商品管理 -->
                 <li th:class="${active}=='goods'?'active':''">

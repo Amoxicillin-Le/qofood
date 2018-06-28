@@ -29,7 +29,7 @@ public interface GoodsMapper {
      * @author zhaoxiaolezi
      * @date 2018/6/26 15:06
      */
-    Page<Goods> selectGoodsList(@Param("goodsName") String goodsName, @Param("orderByStr") String orderByStr);
+    Page<Goods> selectGoodsList(@Param("goodsName") String goodsName,  @Param("isDelete") Boolean isDelete,  @Param("orderByStr") String orderByStr);
 
     /**
      * 删除商品
@@ -51,4 +51,20 @@ public interface GoodsMapper {
      * @date 2018/6/27 17:58
      */
     Integer selectCountByGoodsName(@Param("goodsName")String goodsName);
+
+    /**
+     * 根据商品名称 获取该商品Id的记录数
+     * @author zhaoxiaolezi
+     * @date 2018/6/27 17:58
+     */
+    Integer selectCountByGoodsId(@Param("goodsId")Integer goodsId);
+
+    /**
+     * 更新商品信息
+     * @author zhaoxiaolezi
+     * @date 2018/6/27 17:58
+     */
+    void updateGoods(Goods goods);
+
+    void deleteCateGoryGoodsRelByGoodsId(Integer goodsId);
 }

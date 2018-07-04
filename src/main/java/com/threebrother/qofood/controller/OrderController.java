@@ -18,10 +18,7 @@ import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
-
-import javax.validation.Valid;
 
 @Controller
 @Api(description = "订单--相关接口")
@@ -88,7 +85,7 @@ public class OrderController {
     })
     @RequestMapping(value = "/order/updateLogistics", method = {RequestMethod.POST})
     @ResponseBody
-    public Result updateOrderLogistics(@Valid @RequestBody UpdateOrderLogisticsPO updateOrderLogisticsPO, BindingResult bindingResult){
+    public Result updateOrderLogistics(@RequestBody UpdateOrderLogisticsPO updateOrderLogisticsPO){
 
         // 参数校验
         if(Strings.isNullOrEmpty(updateOrderLogisticsPO.getOrderId())){
@@ -96,14 +93,9 @@ public class OrderController {
                     RequestConstant.UPDATE_ORDER_RECEIVE_ADDRESS_FAILE_MSG);
         }
 
-        if (bindingResult.hasErrors()) {
-            throw new BusinessException(RequestConstant.UPDATA_RECEIVE_ADDRESS_FAILE_CODE,
-                    RequestConstant.UPDATE_ORDER_RECEIVE_ADDRESS_FAILE_MSG + bindingResult.getFieldError().getDefaultMessage());
-        }
-
 
         orderService.updateOrderLogistics(updateOrderLogisticsPO.getOrderId(),
-                updateOrderLogisticsPO.getUserOpenId(), updateOrderLogisticsPO.getReceiveAddressId());
+                updateOrderLogisticsPO.getUserOpenId(), Integer.valueOf(updateOrderLogisticsPO.getReceiveAddressId()));
 
         return ResultUtil.success();
     }

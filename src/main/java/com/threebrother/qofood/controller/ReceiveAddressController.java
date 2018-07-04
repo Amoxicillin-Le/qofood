@@ -117,14 +117,9 @@ public class ReceiveAddressController {
     })
     @RequestMapping(value = "/receiveAddress/updateIsDefault", method = {RequestMethod.POST})
     @ResponseBody
-    public Result updateReceiveAddressIsDefaule(@Valid @RequestBody UpdateOrderLogisticsPO updateOrderLogisticsPO, BindingResult bindingResult){
+    public Result updateReceiveAddressIsDefaule(@RequestBody UpdateOrderLogisticsPO updateOrderLogisticsPO){
 
-        if (bindingResult.hasErrors()) {
-            throw new BusinessException(RequestConstant.UPDATA_RECEIVE_ADDRESS_FAILE_CODE,
-                    RequestConstant.UPDATA_RECEIVE_ADDRESS_FAILE_MSG + bindingResult.getFieldError().getDefaultMessage());
-        }
-
-        receiveAddressService.updateReceiveAddressIsDefaule(updateOrderLogisticsPO.getReceiveAddressId(),
+        receiveAddressService.updateReceiveAddressIsDefaule(Integer.valueOf(updateOrderLogisticsPO.getReceiveAddressId()),
                 updateOrderLogisticsPO.getUserOpenId());
 
         return ResultUtil.success();

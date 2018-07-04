@@ -11,8 +11,7 @@ public class UpdateOrderLogisticsPO implements Serializable {
     @NotBlank(message = "用户openId不能为空")
     String userOpenId;
 
-    @NotBlank(message = "收件地址Id不能为空")
-    Integer receiveAddressId;
+    String receiveAddressId;
 
     public String getOrderId() {
         return orderId;
@@ -30,11 +29,11 @@ public class UpdateOrderLogisticsPO implements Serializable {
         this.userOpenId = userOpenId;
     }
 
-    public Integer getReceiveAddressId() {
+    public String getReceiveAddressId() {
         return receiveAddressId;
     }
 
-    public void setReceiveAddressId(Integer receiveAddressId) {
+    public void setReceiveAddressId(String receiveAddressId) {
         this.receiveAddressId = receiveAddressId;
     }
 }
